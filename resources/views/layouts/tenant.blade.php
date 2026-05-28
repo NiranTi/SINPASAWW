@@ -1,6 +1,6 @@
 {{-- resources/views/layouts/tenant.blade.php --}}
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,10 +62,10 @@
 
         /* Primary: hijau pill — hover lebih cerah */
         .btn-primary {
-            display:inline-flex; align-items:center; justify-content:center; gap:8px;
+            display:inline-flex; align-items:center; justify-content:center; gap:6px;
             background-color:var(--primary); color:#fff;
-            padding:10px 22px; border-radius:999px;
-            font-size:0.7rem; font-weight:500; border:none; letter-spacing:0.3px;
+            border-radius:999px;
+            font-size:14px; font-weight:500; border:none; letter-spacing:0.3px;
             cursor:pointer; text-decoration:none; transition:background-color .15s;
             white-space:nowrap;
         }

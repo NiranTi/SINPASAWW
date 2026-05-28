@@ -83,6 +83,11 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+        {{ $errors->first() }}
+    </div>
+@endif
 
 {{-- Page header --}}
 <div class="mb-6">
@@ -200,7 +205,6 @@
             {{-- Summary --}}
             <div class="space-y-1.5 py-3 border-t border-gray-100 text-sm">
                 <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="dSubtotal">Rp 0</span></div>
-                <div class="flex justify-between text-gray-500"><span>Pajak</span><span>Rp 0</span></div>
                 <div class="flex justify-between font-bold text-base pt-1">
                     <span>Total</span><span id="dTotal" style="color:var(--primary);">Rp 0</span>
                 </div>
@@ -242,7 +246,6 @@
             class="btn-primary shadow-xl"
             style="width:100%;font-size:13px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
         <span id="mCartCount" class="font-semibold">0 item</span>
-        <span>Lihat Keranjang →</span>
         <span id="mCartTotal" class="font-semibold">Rp 0</span>
     </button>
 </div>
@@ -290,7 +293,6 @@
         {{-- Summary --}}
         <div class="space-y-1.5 py-3 border-t border-gray-100 text-sm">
             <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="mSubtotal">Rp 0</span></div>
-            <div class="flex justify-between text-gray-500"><span>Pajak</span><span>Rp 0</span></div>
             <div class="flex justify-between font-bold text-base pt-1">
                 <span>Total</span><span id="mTotal" style="color:var(--primary);">Rp 0</span>
             </div>
@@ -357,15 +359,46 @@ const rp = n => 'Rp ' + Number(n).toLocaleString('id-ID');
 
 /* Tambah item ke cart */
 function addToCart(id, nama, harga, maxStok) {
-    if (cart[id]) cart[id].qty++;
-    else          cart[id] = { id, nama, harga, qty: 1, maxStok };
+
+    if (cart[id]) {
+
+        if (cart[id].qty >= maxStok) {
+            showAlert(`Stok ${nama.toLowerCase} tidak mencukupi`, 'error');
+            return;
+        }
+
+        cart[id].qty++;
+
+    } else {
+
+        cart[id] = {
+            id,
+            nama,
+            harga,
+            qty: 1,
+            maxStok
+        };
+    }
+
     renderAll();
 }
 /* Ubah qty */
 function updateQty(id, delta) {
     if (!cart[id]) return;
-    cart[id].qty += delta;
-    if (cart[id].qty <= 0) delete cart[id];
+
+    const newQty = cart[id].qty + delta;
+
+    if (newQty > cart[id].maxStok) {
+        showAlert(`Stok ${cart[id].nama.toLowerCase()} tidak mencukupi`, 'error');
+        return;
+    }
+
+    cart[id].qty = newQty;
+
+    if (cart[id].qty <= 0) {
+        delete cart[id];
+    }
+
     renderAll();
 }
 /* Hapus dari cart */
@@ -495,7 +528,7 @@ function hideMobileCart() { document.getElementById('mobileCartOverlay').classLi
 /* Klik "Bayar Sekarang" */
 function handlePayNow() {
     const items = Object.values(cart);
-    if (!items.length) { showAlert('Keranjang masih kosong!'); return; }
+    if (!items.length) { showAlert('Keranjang masih kosong!', 'error'); return; }
     const subtotal = items.reduce((s,i) => s + i.qty * i.harga, 0);
     const nominal  = getNominal();
     if (subtotal > nominal) {

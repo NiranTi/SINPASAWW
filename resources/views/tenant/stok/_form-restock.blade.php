@@ -75,9 +75,6 @@
     <div class="flex justify-between text-gray-500">
         <span>Subtotal</span><span id="{{ $prefix }}RsSubtotal">Rp 0</span>
     </div>
-    <div class="flex justify-between text-gray-500">
-        <span>Pajak</span><span>Rp 0</span>
-    </div>
     <div class="flex justify-between font-bold text-gray-900 text-base">
         <span>Total</span>
         <span id="{{ $prefix }}RsTotal" style="color:var(--primary);">Rp 0</span>

@@ -66,7 +66,7 @@
             <form method="POST" action="{{ route('tenant.stok.store') }}">
                 @csrf
                 @include('tenant.stok._form-tambah')
-                <button type="submit" class="btn-primary mt-2" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+                <button type="submit" class="btn-primary mt-2 w-full p-2">
                     Tambahkan
                 </button>
             </form>
@@ -78,7 +78,7 @@
             <form method="POST" action="{{ route('tenant.stok.restock') }}" id="dRestockForm">
                 @csrf
                 @include('tenant.stok._form-restock', ['prefix' => 'd'])
-                <button type="submit" class="btn-primary mt-2" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+                <button type="submit" class="btn-primary mt-2 w-full p-2">
                     Simpan
                 </button>
             </form>
@@ -117,7 +117,7 @@
                     <form method="POST" action="{{ route('tenant.stok.store') }}">
                         @csrf
                         @include('tenant.stok._form-tambah')
-                        <button type="submit" class="btn-primary mt-2" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+                        <button type="submit" class="btn-primary mt-2 py-2" style="width:100%;justify-content:center;font-size:14px;">
                             Tambahkan
                         </button>
                     </form>
@@ -131,7 +131,7 @@
                     <form method="POST" action="{{ route('tenant.stok.restock') }}" id="mRestockForm">
                         @csrf
                         @include('tenant.stok._form-restock', ['prefix' => 'm'])
-                        <button type="submit" class="btn-primary mt-2" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+                        <button type="submit" class="btn-primary mt-2 py-2" style="width:100%;justify-content:center;font-size:14px;">
                             Simpan
                         </button>
                     </form>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Transaksi;
-use App\Models\TransaksiBarang;
+use App\Models\transaksi_barang;
 use App\Models\Kasbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +54,23 @@ class KasirController extends Controller
             return back()->withErrors(['items' => 'Keranjang tidak boleh kosong.']);
         }
 
+        foreach ($items as $item) {
+
+            $barang = Barang::lockForUpdate()
+                ->where('tenant_id', $tenant->tenant_id)
+                ->find($item['id']);
+
+            if (!$barang) {
+                throw new \Exception('Barang tidak ditemukan.');
+            }
+
+            if ($barang->stok < $item['qty']) {
+                throw new \Exception(
+                    "Stok {$barang->nama} tidak cukup. Sisa stok: {$barang->stok}"
+                );
+            }
+        }
+        try {
         DB::transaction(function () use ($request, $tenant, $items) {
             /* ── Hitung total ── */
             $subtotal = collect($items)->sum(fn($i) => $i['qty'] * $i['harga']);
@@ -79,17 +96,21 @@ class KasirController extends Controller
 
             /* ── Buat transaksi_barang & kurangi stok ── */
             foreach ($items as $item) {
-                TransaksiBarang::create([
+                transaksi_barang::create([
                     'transaksi_id' => $transaksi->transaksi_id,
                     'barang_id'    => $item['id'],
                     'qty'          => $item['qty'],
                     'harga'        => $item['harga'],
                     'subtotal'     => $item['qty'] * $item['harga'],
                 ]);
-                /* Kurangi stok, tidak boleh < 0 */
-                Barang::where('barang_id', $item['id'])
-                      ->where('stok', '>=', $item['qty'])
-                      ->decrement('stok', $item['qty']);
+                $barang = Barang::lockForUpdate()->find($item['id']);
+
+                $barang->stok -= $item['qty'];
+                $barang->save();
+
+                if ($item['qty'] <= 0) {
+                    throw new \Exception('Qty tidak valid.');
+                }
             }
 
             /* ── Buat kasbon pelanggan jika kurang ── */
@@ -109,6 +130,18 @@ class KasirController extends Controller
         });
 
         return redirect()->route('tenant.kasir')
-                         ->with('alert', 'Pembayaran anda berhasil!');
+            ->with([
+                'alert' => 'Pembayaran Anda berhasil!',
+                'alert_type' => 'success'
+            ]);
+    } catch (\Exception $e) {
+
+        return back()
+            ->with([
+                'alert' => $e->getMessage(),
+                'alert_type' => 'error'
+            ])
+            ->withInput();
     }
+}
 }

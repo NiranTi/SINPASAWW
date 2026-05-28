@@ -28,10 +28,20 @@
         </p>
 
         {{-- Ikon centang hijau besar — sesuai desain --}}
-        <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
-             style="background-color:#007E43;">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        <div id="alertIcon"
+            class="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
+            style="background-color:#007E43;">
+
+            <svg id="alertSvg"
+                class="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                viewBox="0 0 24 24">
+
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"/>
             </svg>
         </div>
     </div>
@@ -40,10 +50,48 @@
 {{-- ── JS helper ── --}}
 <script>
     /* Tampilkan alert dengan pesan tertentu */
-    function showAlert(message) {
-        document.getElementById('alertMessage').textContent = message;
-        document.getElementById('alertOverlay').classList.remove('hidden');
+    function showAlert(message, type = 'success') {
+
+        const overlay = document.getElementById('alertOverlay');
+        const messageEl = document.getElementById('alertMessage');
+        const icon    = document.getElementById('alertIcon');
+        const svg     = document.getElementById('alertSvg');
+
+        /* Isi pesan */
+        messageEl.textContent = message;
+
+        /* ── ALERT ERROR ── */
+        if (type === 'error') {
+
+            /* Warna merah */
+            icon.style.backgroundColor = '#dc2626';
+
+            /* Icon silang */
+            svg.innerHTML = `
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 6L18 18M6 18L18 6"/>
+            `;
+
+        }
+
+        /* ── ALERT SUCCESS ── */
+        else {
+
+            /* Warna hijau */
+            icon.style.backgroundColor = '#007E43';
+
+            /* Icon centang */
+            svg.innerHTML = `
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"/>
+            `;
+        }
+
+        overlay.classList.remove('hidden');
     }
+
     /* Tutup alert */
     function closeAlert() {
         document.getElementById('alertOverlay').classList.add('hidden');
@@ -56,6 +104,11 @@
     @if(session('alert'))
         document.addEventListener('DOMContentLoaded', function() {
             showAlert(@json(session('alert')));
+        });
+    @endif
+    @if($errors->any())
+        document.addEventListener('DOMContentLoaded', function() {
+            showAlert(@json($errors->first()), 'error');
         });
     @endif
 </script>
