@@ -28,7 +28,7 @@
 
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            background: #f5f5f5;
+            background: #FAFAF5;
             color: #0c0c0c;
             line-height: 1.5;
             letter-spacing: .3px;
