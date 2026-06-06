@@ -271,7 +271,7 @@
             ['Toilet',                         '#BDC3C7'],
         ] as [$nama, $warna])
             <span class="flex items-center gap-1.5">
-                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:{{ $warna }};"></span>
+                <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:{{ $warna }};"></span>
                 {{ $nama }}
             </span>
         @endforeach
