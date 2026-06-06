@@ -94,9 +94,9 @@
 <div class="flex flex-col lg:flex-row gap-6 items-start">
 
     {{-- ── LEFT: Form (desktop only) ── --}}
-    <div class="hidden lg:block w-full lg:w-[42%] xl:w-[38%] flex-shrink-0">
+    <div class="hidden lg:block w-full lg:w-[42%] xl:w-[38%] shrink-0">
         <div class="form-card">
-            <h3 class="font-manrope font-bold text-gray-800 mb-4">Buat Konten Baru</h3>
+            <h3 class="font-manrope font-bold text-[#1A1C19] mb-4">Buat Konten Baru</h3>
             @include('admin.konten._form', ['prefix' => 'd', 'editKonten' => $editKonten])
         </div>
     </div>

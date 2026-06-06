@@ -27,7 +27,7 @@
     </div>
 
     {{-- Kategori + Status Awal (2 kolom) --}}
-    <div class="grid grid-cols-2 gap-3 form-group">
+    <div class="grid grid-cols-2 gap-3.5 form-group pl-3">
         <div>
             <label class="form-label">KATEGORI</label>
             <select id="{{ $prefix }}Kategori" name="kategori" class="form-select" required>

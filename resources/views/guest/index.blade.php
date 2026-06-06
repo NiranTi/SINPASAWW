@@ -63,13 +63,16 @@
      HERO
 ════════════════════════════════════════════════════ --}}
 <section id="hero" class="hero-section">
+    <div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center"
+        style="background-image: url('{{asset('images/bg-user.jpg')}}');">
+        <div class="absolute inset-0bg-gradient-to-r form-black/85 via-black/60 to-transparent"></div>
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="max-w-xl">
-            <h1 class="text-white font-manrope font-black leading-tight mb-4"
+        <div class="max-w-4xl">
+            <h1 class="text-white font-manrope font-extrabold leading-tight mb-4"
                 style="font-size:clamp(1.8rem,5vw,3rem); font-family:'Manrope',sans-serif; letter-spacing:-.02em;">
-                Pasar Modern Sinpasa Kini Hadir di Summarecon Bandung
+                Pasar Modern Sinpasa Kini Hadir <br class="hidden sm:inline"> di Summarecon Bandung
             </h1>
-            <p class="text-green-100 text-base leading-relaxed mb-8 max-w-md">
+            <p class="text-white text-base leading-relaxed mb-8 max-w-2xl">
                 Pasar Modern Sinpasa Bandung siap untuk memenuhi kebutuhan sehari-hari
                 penghuni Summarecon Bandung maupun warga Bandung secara lebih luas.
             </p>
@@ -83,6 +86,7 @@
                 <a href="#fasilitas" class="btn-primary-guest">Jelajahi Pasar</a>
             @endif
         </div>
+    </div>
     </div>
 </section>
 

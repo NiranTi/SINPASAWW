@@ -30,11 +30,15 @@ class BerandaController extends Controller
         $trenData = $this->getTrenTahunan();
 
         /* ── Denah: semua slot + info tenant ── */
-        $denahData = Denah::with('tenant:tenant_id,nama_tenant,kategori,foto,deskipsi')
+        $denahData = Denah::with('tenant:tenant_id,nama_tenant,kategori,foto,deskripsi')
             ->orderBy('posisi_y')
             ->orderBy('posisi_x')
             ->get();
 
+        $denahTenants = Tenant::all();
+        // return view('guest.denah', compact('denahData', 'denahTenants'));
+
+         
         /* ── Tenant list (dengan filter & sort) ── */
         $query = Tenant::with('user:id,name,email')
             ->where('is_active', 1);
@@ -69,6 +73,7 @@ class BerandaController extends Controller
             'slotKosong',
             'trenData',
             'denahData',
+            'denahTenants',
             'tenants',
             'kategoriList',
         ));

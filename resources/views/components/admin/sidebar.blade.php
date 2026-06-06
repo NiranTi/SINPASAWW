@@ -7,16 +7,16 @@
 </div>
 
 <aside id="sidebarPanel"
-       style="background:#ffffff; border-right:1px solid #e5e7eb; font-family:'Be Vietnam Pro',sans-serif;"
+       style="background:#F4F4EF; border-x:1px solid #e5e7eb; font-family:'Be Vietnam Pro',sans-serif;"
        class="fixed top-0 left-0 h-screen w-56 flex flex-col z-30 shadow-sm
               -translate-x-full lg:translate-x-0
-              transition-transform duration-300 ease-in-out">
+              transition-transform duration-300 ease-in-out px-3 py-6 gap-6">
 
     {{-- Portal Admin badge --}}
-    <div class="px-4 pt-5 pb-3 border-b border-gray-100">
-        <p class="text-[10px] font-semibold tracking-widest uppercase text-gray-400 mb-0.5">PORTAL ADMIN</p>
-        <p class="text-xs font-semibold leading-tight text-gray-700">{{ config('app.mall_name', 'Pasar Modern Sinpasa') }}</p>
-        <p class="text-xs text-gray-500">{{ config('app.mall_location', 'Summarecon Bandung') }}</p>
+    <div class="p-4 border-b border-gray-100 bg-[#FFFFFF] rounded-xl font-reguler font-[Manrope]">
+        <p class="text-[12px] tracking-widest uppercase text-[#707A6C] mb-2.5">PORTAL ADMIN</p>
+        <p class="text-[14px] leading-tight text-[#1A1C19]">{{ config('app.mall_name', 'Pasar Modern Sinpasa') }}</p>
+        <p class="text-[14px] text-[#1A1C19]">{{ config('app.mall_location', 'Summarecon Bandung') }}</p>
     </div>
 
     {{-- Nav links --}}
@@ -33,7 +33,7 @@
 
             <a href="{{ route($link['route']) }}"
                onclick="closeSidebar()"
-               class="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium
+               class="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-reguler font-[Be Vietnam Pro]
                       transition-all duration-150
                       {{ $active ? 'text-white' : 'text-gray-500' }}"
                style="{{ $active ? 'background-color:#007E43;' : '' }}"
@@ -44,7 +44,7 @@
 
                 @if ($link['icon'] === 'dashboard')
                     {{-- Grid/dashboard icon --}}
-                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
                     </svg>

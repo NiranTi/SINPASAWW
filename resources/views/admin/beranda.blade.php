@@ -52,8 +52,8 @@
 }
 
 /* ── Tenant table ── */
-.tenant-table th { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#9ca3af; }
-.tenant-table td { font-size:13px; }
+.tenant-table th { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#A1A1AA;}
+.tenant-table td { font-size:14px; }
 .tenant-table tr:hover td { background:#f9fafb; }
 
 /* ── Masa kontrak warning ── */
@@ -64,11 +64,11 @@
 
 {{-- ── Page header ────────────────────────────────────── --}}
 <div class="mb-7">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-1" style="color:var(--primary);">
+    <p class="text-[14px] font-[Be Vietnam Pro] font-semibold tracking-widest uppercase mb-1" style="color:var(--primary);">
         SELAMAT DATANG KEMBALI
     </p>
-    <h1 class="font-manrope text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight">Admin Pasar</h1>
-    <p class="text-sm text-gray-500 mt-1">Berikut laporan performa Pasar Sinpasa</p>
+    <h1 class="font-manrope text-2xl lg:text-4xl font-bold text-black leading-tight">Admin Pasar</h1>
+    <p class="text-sm text-[#40493D] font-[Be Vietnam Pro] mt-1">Berikut laporan performa Pasar Sinpasa</p>
 </div>
 
 {{-- ══════════════════════════════════════════════════════
@@ -84,8 +84,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
-        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">TOTAL TENANT AKTIF</p>
-        <p class="font-manrope text-2xl lg:text-3xl font-bold text-gray-900">{{ $totalTenantAktif }}</p>
+        <p class="text-xs text-[#40493D] font-reguler font-[manrope] uppercase tracking-wide mb-1">TOTAL TENANT AKTIF</p>
+        <p class="font-manrope text-2xl lg:text-3xl font-bold text-[#1A1C19]">{{ $totalTenantAktif }}</p>
     </div>
 
     {{-- Masa Kontrak < 30 Hari --}}
@@ -96,7 +96,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
-        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">MASA KONTRAK &lt; 30 HARI</p>
+        <p class="text-xs text-[#40493D] font-[manrope] uppercase tracking-wide mb-1">MASA KONTRAK &lt; 30 HARI</p>
         <p class="font-manrope text-2xl lg:text-3xl font-bold"
            style="{{ $masaKontrakHampirHabis > 0 ? 'color:var(--orange);' : 'color:#1a1a1a;' }}">
             {{ $masaKontrakHampirHabis }}
@@ -110,7 +110,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
         </div>
-        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">SLOT KOSONG</p>
+        <p class="text-xs text-[#40493D] font-[manrope] uppercase tracking-wide mb-1">SLOT KOSONG</p>
         <p class="font-manrope text-2xl lg:text-3xl font-bold text-gray-900">{{ $slotKosong }}</p>
     </div>
 </div>
@@ -120,8 +120,8 @@
      ══════════════════════════════════════════════════════ --}}
 <div class="section-card p-5 lg:p-6 mb-8">
     <div class="flex items-center justify-between mb-5">
-        <h3 class="font-manrope font-bold text-gray-800">Trafik Penjualan Pasar</h3>
-        <div class="flex items-center gap-4 text-xs text-gray-400">
+        <h3 class="font-manrope text-[20px] text-[#1A1C19]">Trafik Penjualan Pasar</h3>
+        <div class="flex items-center gap-4 text-xs text-[#A1A1AA] font-[Be Vietnam Pro] font-semibold">
             <span class="flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full inline-block" style="background:var(--primary);"></span>Saat ini
             </span>
@@ -154,8 +154,8 @@
      DENAH PASAR — placeholder interaktif
      ══════════════════════════════════════════════════════ --}}
 <div class="mb-8">
-    <h2 class="font-manrope text-xl lg:text-2xl font-bold text-gray-900 text-center">Denah Pasar</h2>
-    <p class="text-sm text-gray-500 text-center mt-1 mb-5">
+    <h2 class="font-manrope text-xl lg:text-2xl font-bold text-[#121212] text-center">Denah Pasar</h2>
+    <p class="text-sm text-[#121212] font-[Be Vietnam Pro] text-center mt-1 mb-5">
         Gunakan denah interaktif kami untuk menemukan tenant yang dicari lebih cepat.
     </p>
 
@@ -281,7 +281,7 @@
 {{-- ══════════════════════════════════════════════════════
      DAFTAR TENANT
      ══════════════════════════════════════════════════════ --}}
-<div class="section-card">
+<div class="section-card px-4 pt-7 pb-5">
 
     {{-- Toolbar --}}
     <div class="flex flex-wrap items-center gap-3 px-4 lg:px-5 py-4 border-b border-gray-100">
@@ -324,10 +324,10 @@
     </div>
 
     {{-- Table --}}
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto bg-white rounded-3xl p-6">
         <table class="tenant-table w-full min-w-140">
             <thead>
-                <tr class="border-b border-gray-100">
+                <tr>
                     <th class="px-5 py-3 text-left">NAMA TENANT</th>
                     <th class="px-4 py-3 text-left">BLOK</th>
                     <th class="px-4 py-3 text-left">KATEGORI</th>
@@ -344,11 +344,11 @@
                         $isWarning = $sisaHari >= 0 && $sisaHari <= 30;
                     @endphp
                     <tr>
-                        <td class="px-5 py-3 font-medium text-gray-900">{{ $t->nama_tenant }}</td>
+                        <td class="px-5 py-3 font-medium text-[#27272A]">{{ $t->nama_tenant }}</td>
                         <td class="px-4 py-3">
                             <span class="blok-badge">{{ $t->blok }}</span>
                         </td>
-                        <td class="px-4 py-3 text-gray-600">{{ $t->kategori }}</td>
+                        <td class="px-4 py-3 text-[#27272A]">{{ $t->kategori }}</td>
                         <td class="px-4 py-3">
                             <p class="text-sm font-medium {{ $isWarning ? 'kontrak-warning' : 'text-gray-800' }}">
                                 {{ $t->lama_kontrak ?? 12 }} Bulan
@@ -360,7 +360,7 @@
                         <td class="px-4 py-3">
                             {{-- 3-dot actions dropdown --}}
                             <div class="actions-menu" id="menu-{{ $t->tenant_id }}">
-                                <button class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-700"
+                                <button class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-[#27272A] hover:text-gray-700"
                                         onclick="toggleMenu('menu-{{ $t->tenant_id }}')" type="button">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
