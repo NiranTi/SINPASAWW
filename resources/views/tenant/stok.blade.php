@@ -25,8 +25,8 @@
 /* ── Payment toggle di form restock ── */
 .restock-pay-btn {
     flex:1; padding:12px 8px; border-radius:12px; border:1.5px solid #e5e7eb;
-    background:#fff; cursor:pointer; transition:all .15s; text-align:center;
-    font-size:11px; font-weight:600; color:#6b7280;
+    background:#F4F4EF; cursor:pointer; transition:all .15s; text-align:center;
+    font-size:11px; font-weight:600; color:black;
 }
 .restock-pay-btn.active { border-color:var(--primary); background:var(--primary); color:#fff; }
 .restock-pay-btn:not(.active):hover { border-color:var(--primary); color:var(--primary); }

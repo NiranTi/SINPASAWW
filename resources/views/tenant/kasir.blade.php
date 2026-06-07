@@ -180,17 +180,17 @@
 
             {{-- Payment method --}}
             <div class="flex gap-2 my-3">
-                <button id="dBtnQRIS"  class="pay-btn"        onclick="setMetode('qris')">
-                    <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <button id="dBtnQRIS"  class="pay-btn flex flex-col gap-2"        onclick="setMetode('qris')">
+                    <!-- <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"/>
-                    </svg>
-                    QRIS
+                    </svg> -->
+                    <i class="fa-solid fa-qrcode text-[15px]"></i> QRIS
                 </button>
-                <button id="dBtnTUNAI" class="pay-btn active"  onclick="setMetode('tunai')">
-                    <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <button id="dBtnTUNAI" class="pay-btn active flex flex-col gap-2"  onclick="setMetode('tunai')">
+                    <!-- <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375"/>
-                    </svg>
-                    TUNAI
+                    </svg> -->
+                    <i class="fa-solid fa-money-bill text-[15px]"></i>TUNAI
                 </button>
             </div>
 
