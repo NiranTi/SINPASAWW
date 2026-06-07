@@ -49,14 +49,13 @@
         <div class="flex items-center gap-2">
             {{-- Edit: pre-fill form --}}
             <button type="button"
-                    onclick="editKonten(
-                        @json($konten->konten_id),
-                        @json($konten->judul),
-                        @json($konten->kategori),
-                        @json($konten->status),
-                        @json($konten->deskripsi ?? ''),
-                        @json($konten->img_url ?? '')
-                    )"
+                    onclick="editKonten(this)"
+                    data-id="{{$konten->konten_id}}"
+                    data-judul="{{ e($konten->judul) }}"
+                    data-kategori="{{ e($konten->kategori) }}"
+                    data-status="{{ e($konten->status) }}"
+                    data-deskripsi="{{ e($konten->deskripsi ?? '') }}"
+                    data-img="{{ e($konten->img_url ?? '') }}"
                     class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
                     title="Edit">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

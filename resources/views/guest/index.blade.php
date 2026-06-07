@@ -91,7 +91,7 @@
      FASILITAS
 ════════════════════════════════════════════════════ --}}
 <section id="fasilitas" class="py-16 lg:py-24 bg-[#f5f5f5]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-7 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="section-title">Fasilitas Lengkap</h2>
             <p class="section-subtitle">Kenyamanan Anda adalah prioritas kami saat berbelanja.</p>

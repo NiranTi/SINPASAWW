@@ -32,6 +32,7 @@
             color: #0c0c0c;
             line-height: 1.5;
             letter-spacing: .3px;
+            padding:5px;
         }
 
         /* ── Scroll offset untuk section anchor ── */

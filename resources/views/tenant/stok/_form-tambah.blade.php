@@ -13,7 +13,7 @@
 <div class="form-group">
     <label class="form-label ml-0 md:ml-4">HARGA JUAL</label>
     <div class="input-prefix-wrap">
-        <span class="input-prefix">Rp</span>
+        <span class="input-prefix"> Rp </span>
         <input type="number" name="harga_jual"
                class="form-input has-prefix"
                value="{{ old('harga_jual') }}" placeholder="0" min="0" required>

@@ -9,18 +9,18 @@
    Desktop: vertical card dalam grid 2-kolom
 ────────────────────────────────────────────────────────── */
 .product-card {
-    background:#fff; border-radius:16px; overflow:hidden;
+    background:#fff; border-radius:12px; overflow:hidden;
     display:flex; flex-direction:row; align-items:center;
-    gap:12px; padding:12px; transition:box-shadow .15s;
+    gap:8px; padding:8px; transition:box-shadow .15s;
 }
 .product-card:hover { box-shadow:0 4px 16px rgba(0,0,0,.07); }
 
 /* Image placeholder — kotak dengan initial nama */
 .product-img-wrap {
-    width:80px; height:80px; flex-shrink:0; border-radius:12px;
+    width:60px; height:60px; flex-shrink:0; border-radius:8px;
     background:linear-gradient(135deg,#A8D5BE,#EAF7F1);
     display:flex; align-items:center; justify-content:center;
-    font-size:1.5rem; color:#007E43; font-weight:700; overflow:hidden;
+    font-size:1.2rem; color:#007E43; font-weight:700; overflow:hidden;
 }
 
 /* Body teks: flex-1 agar melebar mengisi sisa ruang */
@@ -29,8 +29,8 @@
 /* Desktop: vertical card layout */
 @media (min-width:1024px) {
     .product-card { flex-direction:column; padding:0; gap:0; align-items:stretch; }
-    .product-img-wrap { width:100%; height:auto; aspect-ratio:1; border-radius:16px 16px 0 0; font-size:2rem; }
-    .product-card-body { padding:1rem; }
+    .product-img-wrap { width:100%; height:auto; aspect-ratio:1; border-radius:12px 12px 0 0; font-size:2rem; }
+    .product-card-body { padding:0.7rem; }
 }
 
 /* ── + button & qty control ── */
@@ -65,9 +65,9 @@
 
 /* ── Payment method toggle ── */
 .pay-btn {
-    flex:1; padding:12px 8px; border-radius:12px; border:1.5px solid #e5e7eb;
-    background:#fff; cursor:pointer; transition:all .15s;
-    text-align:center; font-size:11px; font-weight:600; color:#6b7280;
+    flex:1; padding:12px 8px; border-radius:12px; border:1.5px solid #F4F4EF;
+    background:#F4F4EF; cursor:pointer; transition:all .15s;
+    text-align:center; font-size:11px; font-weight:400; color:black;
 }
 .pay-btn.active { border-color:var(--primary); background:var(--primary); color:#fff; }
 .pay-btn:not(.active):hover { border-color:var(--primary); color:var(--primary); }
@@ -99,7 +99,7 @@
 {{-- Search bar --}}
 <div class="mb-5">
     <div class="search-wrap max-w-lg">
-        <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
         <input id="searchInput" type="text" name="q" value="{{ request('q') }}"
@@ -115,9 +115,10 @@
 
     {{-- ── Product list
          Mobile : space-y-3 (1 kolom horizontal)
+         Tab: grid 3-kolom
          Desktop: grid 2-kolom
     ── --}}
-    <div class="w-full lg:flex-1 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4">
+    <div class="w-full mx-auto lg:flex-1 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4">
         @forelse ($barang as $b)
             <div class="product-card"
                  data-id="{{ $b->barang_id }}"
@@ -132,13 +133,13 @@
 
                 {{-- Teks & tombol ── --}}
                 <div class="product-card-body">
-                    <p class="font-manrope font-bold text-sm lg:text-base text-gray-900 leading-tight">
+                    <p class="font-manrope font-bold text-sm lg:text-base text-[#1A1C19] leading-tight">
                         {{ $b->nama }}
                     </p>
-                    <p class="text-xs text-gray-400 mt-0.5">Stok: {{ $b->stok }}</p>
+                    <p class="text-xs text-[#40493D] mt-0.5">Stok: {{ $b->stok }}</p>
 
                     <div class="flex items-center justify-between mt-2">
-                        <p class="font-bold text-sm" style="color:var(--primary);">
+                        <p class="font-bold text-sm" style="color:#007E43;">
                             Rp {{ number_format($b->harga_jual, 0, ',', '.') }}
                         </p>
 
@@ -161,20 +162,20 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-2 text-center py-12 text-gray-400 text-sm">
+            <div class="col-span-2 text-center py-12 text-[#707A6C] text-sm">
                 Tidak ada produk ditemukan.
             </div>
         @endforelse
     </div>
 
     {{-- ── Desktop cart panel (hidden di mobile) ── --}}
-    <div class="hidden lg:block w-72 xl:w-80 flex-shrink-0">
+    <div class="hidden lg:block w-72 xl:w-80 shrink-0">
         <div class="cart-panel">
-            <p class="text-xs text-gray-400 text-right mb-3 font-mono">{{ $kodeTransaksi }}</p>
+            <p class="text-xs text-[#40493D] text-right mb-3 font-mono">{{ $kodeTransaksi }}</p>
 
             {{-- Item list --}}
             <div id="dCartItems">
-                <p class="text-sm text-gray-400 text-center py-4">Keranjang kosong</p>
+                <p class="text-sm text-[#40493D]/40 text-center py-4">Keranjang kosong</p>
             </div>
 
             {{-- Payment method --}}
@@ -205,7 +206,7 @@
 
             {{-- Summary --}}
             <div class="space-y-1.5 py-3 border-t border-gray-100 text-sm">
-                <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="dSubtotal">Rp 0</span></div>
+                <div class="flex justify-between text-[#40493D]"><span>Subtotal</span><span id="dSubtotal">Rp 0</span></div>
                 <div class="flex justify-between font-bold text-base pt-1">
                     <span>Total</span><span id="dTotal" style="color:var(--primary);">Rp 0</span>
                 </div>

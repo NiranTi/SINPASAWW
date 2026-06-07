@@ -28,13 +28,13 @@
                     <a href="#testimoni" class="nav-link" data-section="testimoni">Testimoni</a>
                     <a href="#footer"    class="nav-link" data-section="footer">Tentang Kami</a>
                 @elseif ($current === 'denah')
-                    <a href="{{ route('guest.index') }}"              class="nav-link">BERANDA</a>
+                    <a href="{{ route('guest.index') }}"              class="nav-link">Beranda</a>
                     <a href="{{ route('guest.index') }}#fasilitas"    class="nav-link">Fasilitas</a>
                     <a href="{{ route('guest.denah') }}"              class="nav-link active">Denah</a>
                     <a href="{{ route('guest.index') }}#testimoni"    class="nav-link">Testimoni</a>
                     <a href="{{ route('guest.index') }}#footer"       class="nav-link">Tentang Kami</a>
                 @else
-                    <a href="{{ route('guest.index') }}"              class="nav-link">BERANDA</a>
+                    <a href="{{ route('guest.index') }}"              class="nav-link">Beranda</a>
                     <a href="{{ route('guest.index') }}#fasilitas"    class="nav-link">Fasilitas</a>
                     <a href="{{ route('guest.denah') }}"              class="nav-link">Denah</a>
                     <a href="{{ route('guest.index') }}#testimoni"    class="nav-link">Testimoni</a>
@@ -67,13 +67,13 @@
     {{-- Mobile menu panel --}}
     <div id="mobileMenu"
          class="hidden lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-1">
-        <a href="{{ route('guest.index') }}" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-[#007E43] transition-colors">BERANDA</a>
-        <a href="{{ route('guest.index') }}#fasilitas" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-[#007E43] transition-colors">Fasilitas</a>
-        <a href="{{ route('guest.denah') }}" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-[#007E43] transition-colors">Denah</a>
-        <a href="{{ route('guest.index') }}#testimoni" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-[#007E43] transition-colors">Testimoni</a>
-        <a href="{{ route('guest.index') }}#footer" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-[#007E43] transition-colors">Tentang Kami</a>
+        <a href="{{ route('guest.index') }}" class="block px-3 py-2.5 rounded-xl text-sm text-[#121212] hover:bg-green-50 hover:text-[#007E43] transition-colors uppercase">Beranda</a>
+        <a href="{{ route('guest.index') }}#fasilitas" class="block px-3 py-2.5 rounded-xl text-sm text-[#121212] hover:bg-green-50 hover:text-[#007E43] transition-colors uppercase">Fasilitas</a>
+        <a href="{{ route('guest.denah') }}" class="block px-3 py-2.5 rounded-xl text-sm text-[#121212] hover:bg-green-50 hover:text-[#007E43] transition-colors uppercase">Denah</a>
+        <a href="{{ route('guest.index') }}#testimoni" class="block px-3 py-2.5 rounded-xl text-sm text-[#121212] hover:bg-green-50 hover:text-[#007E43] transition-colors uppercase">Testimoni</a>
+        <a href="{{ route('guest.index') }}#footer" class="block px-3 py-2.5 rounded-xl text-sm text-[#121212] hover:bg-green-50 hover:text-[#007E43] transition-colors uppercase">Tentang Kami</a>
         <div class="pt-2 border-t border-gray-100">
-            <a href="{{ route('login') }}" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-[#007E43]">Portal Login →</a>
+            <a href="{{ route('login') }}" class="block px-3 py-2.5 rounded-xl text-sm text-[#40493D] hover:text-[#007E43]">Portal Login →</a>
         </div>
     </div>
 </header>

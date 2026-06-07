@@ -34,7 +34,7 @@
             padding: 1.5rem;
         }
         .stat-card.danger-card {
-            background-color: var(--danger-soft);
+            background-color: #FFDAD6 !important;
             border-color: #f5b8b8;
         }
 
@@ -197,7 +197,7 @@
             </div>
 
             {{-- Avatar desktop (kanan atas, tersembunyi di mobile karena sudah ada di top bar) --}}
-            @if ($tenant->foto)
+            <!-- @if ($tenant->foto)
                 <img src="{{ asset($tenant->foto) }}"
                      alt="{{ $tenant->nama_tenant }}"
                      class="w-9 h-9 rounded-full object-cover hidden lg:block">
@@ -206,8 +206,8 @@
                 <div class="hidden lg:flex w-9 h-9 rounded-full items-center justify-center text-white text-xs font-bold"
                      style="background-color:var(--primary);">
                     {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
-                </div>
-            @endif
+                </div> -->
+            <!-- @endif -->
         </div>
 
         {{-- ── CTA Buka Kasir ───────────────────────────────────── --}}
@@ -223,7 +223,7 @@
              ══════════════════════════════════════════════════════ --}}
         <div class="mb-2">
             <h2 class="text-lg lg:text-xl text-[#003B1F]">Performa Toko</h2>
-            <p class="text-xs text-gray-900 mt-0.5">Laporan performa toko Anda</p>
+            <p class="text-xs text-[#40493D] mt-0.5">Laporan performa toko Anda</p>
         </div>
 
         {{-- ── Periode toggle ─────────────────────────────────── --}}
@@ -268,11 +268,11 @@
                             </svg>
                         </div>
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide font-manrope">
+                        <p class="text-[11px] lg:text-[14px] text-[#40493D] uppercase tracking-wide font-manrope">
                             TOTAL PENJUALAN
                         </p>
 
-                        <p class="font-manrope text-lg lg:text-xl text-gray-900 mt-0.5 leading-tight">
+                        <p class="font-manrope text-lg lg:text-[30px] text-[#1A1C19] mt-0.5 leading-tight">
                             Rp {{ number_format($totalPenjualan, 0, ',', '.') }}
                         </p>
                     </div>
@@ -312,7 +312,7 @@
             <div class="stat-card">
                 <div class="flex items-start justify-between mb-3">
                     <div class="w-8 h-8 rounded-xl flex items-center justify-center"
-                         style="background-color:var(--orange-soft);">
+                         style="background-color:#FBDDB0;">
                         <svg class="w-4 h-4" style="color:var(--orange);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
                         </svg>
@@ -327,8 +327,8 @@
                     </svg>
                 </a>
                 </div>
-                <p class="text-xs text-gray-400 font-medium uppercase tracking-wide font-manrope">TOTAL KASBON</p>
-                <p class="font-manrope text-lg lg:text-xl text-gray-900 mt-0.5 leading-tight">
+                <p class="text-[11px] lg:text-[14px] text-[#40493D] uppercase tracking-wide font-manrope">TOTAL KASBON</p>
+                <p class="font-manrope text-lg lg:text-[30px] text-[#1A1C19] mt-0.5 leading-tight">
                     Rp {{ number_format($totalKasbon, 0, ',', '.') }}
                 </p>
                 {{-- Link Selengkapnya --}}
@@ -364,7 +364,7 @@
                         </a>
                     @endif
                 </div>
-                <p class="text-xs font-medium uppercase tracking-wide" style="color:var(--danger); font-manrope">PERINGATAN STOK</p>
+                <p class="text-[14px] uppercase tracking-wide" style="color:var(--danger); font-manrope">PERINGATAN STOK</p>
                 <p class="font-manrope text-xl mt-0.5" style="{{ $stokHabis > 0 ? 'color:var(--danger);' : 'color:#1a1a1a;' }}">
                     {{ $stokHabis > 0 ? $stokHabis . ' Barang Habis' : 'Stok Aman' }}
                 </p>
@@ -387,7 +387,7 @@
                         </svg>
                     </div>
                 </div>
-                <p class="text-xs font-medium uppercase tracking-wide" style="color:var(--danger);">PERINGATAN STOK</p>
+                <p class="text-xs uppercase tracking-wide" style="color:var(--danger);">PERINGATAN STOK</p>
                 <p class="font-manrope text-base mt-0.5 leading-tight" style="{{ $stokHabis > 0 ? 'color:var(--danger);' : 'color:#1a1a1a;' }}">
                     {{ $stokHabis > 0 ? $stokHabis . ' Barang Habis' : 'Stok Aman' }}
                 </p>
@@ -403,20 +403,20 @@
 
             {{-- Barang Paling Laris (mobile only row 2 kanan) --}}
             <div class="stat-card">
-                <p class="text-sm font-manrope text-gray-700 mb-2">Barang Paling Laris</p>
+                <p class="text-sm font-manrope text-[#1A1C19] mb-2">Barang Paling Laris</p>
                 <div class="space-y-2">
                     @forelse ($barangLaris->take(2) as $item)
                         <div class="flex items-center justify-between gap-1">
                             <div class="min-w-0">
-                                <p class="text-xs font-medium text-gray-800 truncate">{{ $item->barang->nama ?? '-' }}</p>
-                                <p class="text-[0.6rem] text-gray-400">{{ $item->total_order }} order</p>
+                                <p class="text-[11px] font-semibold text-[#1A1C19] truncate">{{ $item->barang->nama ?? '-' }}</p>
+                                <p class="text-[10px] text-[#71717A]">{{ $item->total_order }} order</p>
                             </div>
-                            <span class="text-xs font-semibold flex-shrink-0" style="color:var(--primary);">
+                            <span class="text-[10px] font-semibold shrink-0" style="color:var(--primary);">
                                 Rp {{ number_format($item->barang->harga_jual ?? 0, 0, ',', '.') }}
                             </span>
                         </div>
                     @empty
-                        <p class="text-xs text-gray-400">Belum ada data</p>
+                        <p class="text-xs text-[#71717A]/30">Belum ada data</p>
                     @endforelse
                 </div>
                 <div class="mt-2 pt-2 border-t border-gray-100">
@@ -438,8 +438,8 @@
             {{-- Tren Pendapatan Penjualan --}}
             <div class="lg:col-span-2 section-card p-4 lg:p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-manrope text-gray-800 text-md">Tren Pendapatan Penjualan</h3>
-                    <div class="flex items-center gap-3 text-xs text-gray-400">
+                    <h3 class="font-manrope text-[#1A1C19] text-sm lg:text-[20px]">Tren Pendapatan Penjualan</h3>
+                    <div class="flex flex-col md:flex-row items-center gap:1.5 lg:gap-3 text-[10px] lg:text-xs text-gray-400">
                         <span class="flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full inline-block" style="background:var(--primary);"></span>
                             Saat ini
@@ -475,20 +475,20 @@
 
             {{-- Barang Paling Laris — HANYA desktop ── --}}
             <div class="section-card p-5 lg:p-6 hidden lg:block">
-                <h3 class="font-manrope text-gray-800 text-md mb-4">Barang Paling Laris</h3>
+                <h3 class="font-manrope text-[#1A1C19] text[20px] mb-4">Barang Paling Laris</h3>
                 <div class="space-y-4">
                     @forelse ($barangLaris as $item)
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm font-medium text-gray-800">{{ $item->barang->nama ?? '-' }}</p>
-                                <p class="text-xs text-gray-400">{{ $item->total_order }} order</p>
+                                <p class="text-[14px] font-semobold text-[#1A1C19]">{{ $item->barang->nama ?? '-' }}</p>
+                                <p class="text-[12px] text-[#71717A]">{{ $item->total_order }} order</p>
                             </div>
-                            <span class="text-sm font-bold" style="color:var(--primary);">
+                            <span class="text-[14px] font-semibold" style="color:#007E43;">
                                 Rp {{ number_format($item->barang->harga_jual ?? 0, 0, ',', '.') }}
                             </span>
                         </div>
                     @empty
-                        <p class="text-sm text-gray-400 text-center py-4">Belum ada data</p>
+                        <p class="text-sm text-[#71717A]/30 text-center py-4">Belum ada data</p>
                     @endforelse
                 </div>
                 @if ($barangLaris->count())
@@ -509,7 +509,7 @@
 
             {{-- Toolbar ── --}}
             <div form method="GET" action="{{ route('tenant.dashboard') }}"
-                class="flex items-center gap-3 flex-wrap w-full lg:w-auto lg:ml-auto px-4 py-4 border-b border-gray-100">
+                class="flex flex-row md:flex-row md:items-center gap-3 flex-wrap w-full lg:w-auto lg:ml-auto px-4 py-4 border-b border-gray-100">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     {{-- Filter & Urutkan --}}
                     <div class="flex items-center gap-3 flex-wrap">
@@ -521,7 +521,7 @@
                             <select
                                 name="filter"
                                 onchange="this.form.submit()"
-                                class="appearance-none rounded-4xl bg-white pl-10 pr-9 py-2 text-xs font-medium text-zinc-700 focus:outline-1 focus:outline-[#007E43]"
+                                class="appearance-none rounded-4xl bg-white w-9 h-9 md:w-auto pl-0 pr-0 md:pl-10 md:pr-9 py-2 text-xs font-medium text-zinc-700 focus:outline-1 focus:outline-[#007E43]"
                             >
                                 <option value="" disabled {{ request('filter') ? '' : 'selected' }}>
                                     Filter
@@ -538,7 +538,7 @@
                             </select>
 
                             {{-- Icon --}}
-                            <div class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+                            <div class="pointer-events-none absolute left-1/2 md:left-3 top-1/2 -translate-y-1/2 -translate-x-1/2 md:translate-x-0">
                                 <svg class="w-4 h-4 text-zinc-500"
                                     fill="none"
                                     stroke="currentColor"
@@ -551,7 +551,7 @@
                             </div>
 
                             {{-- Arrow --}}
-                            <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                            <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden md:block">
                                 <svg class="w-3 h-3 text-zinc-400"
                                     fill="none"
                                     stroke="currentColor"
@@ -571,7 +571,7 @@
                             <select
                                 name="sort"
                                 onchange="this.form.submit()"
-                                class="appearance-none rounded-4xl bg-white pl-10 pr-9 py-2 text-xs font-medium text-zinc-700 focus:outline-1 focus:outline-[#007E43]"
+                                class="appearance-none rounded-4xl bg-white w-9 h-9 md:w-auto pl-0 pr-0 md:pl-10 md:pr-9 py-2 text-xs font-medium text-zinc-700 focus:outline-1 focus:outline-[#007E43]"
                             >
                                 <option value="" disabled {{ request('sort') ? '' : 'selected' }}>
                                     Urutkan
@@ -595,7 +595,7 @@
                             </select>
 
                             {{-- Icon --}}
-                            <div class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+                            <div class="pointer-events-none absolute left-1/2 md:left-3 top-1/2 -translate-y-1/2 -translate-x-1/2 md:translate-x-0">
                                 <svg class="w-4 h-4 text-zinc-500"
                                     fill="none"
                                     stroke="currentColor"
@@ -608,7 +608,7 @@
                             </div>
 
                             {{-- Arrow --}}
-                            <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                            <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden md:block">
                                 <svg class="w-3 h-3 text-zinc-400"
                                     fill="none"
                                     stroke="currentColor"
@@ -626,16 +626,16 @@
                 {{-- Export buttons
                      Mobile:  Export PDF di atas sendiri, Excel di bawahnya (flex-col align-end)
                      Desktop: sejajar (flex-row) --}}
-                <div class="flex flex-col items-end gap-1.5 ml-auto sm:flex-row sm:items-center sm:gap-2 export-wrap">
-                    <a class="btn-outline text-xs" href="{{ route('tenant.export.pdf', request()->query()) }}">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="flex !flex-row items-center gap-1.5 ml-auto export-wrap">
+                    <a class="btn-outline !text-[10px] md:text-xs" href="{{ route('tenant.export.pdf', request()->query()) }}">
+                        <svg class="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                         </svg>
                         Export PDF
                     </a>
 
-                    <a class="btn-outline text-xs" href="{{ route('tenant.export.excel', request()->query()) }}">
-                        <svg class="w-3.5 h-3.5" style="color:#16a34a;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <a class="btn-outline !text-[10px] md:text-xs" href="{{ route('tenant.export.excel', request()->query()) }}">
+                        <svg class="w-3 h-3 md:w-3.5 md:h-3.5" style="color:#16a34a;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         Excel
@@ -646,12 +646,12 @@
             {{-- Tabel — scroll horizontal di mobile --}}
             {{-- Di mobile: kolom Kode Transaksi & Barang disembunyikan via .col-kode .col-barang --}}
             <div class="overflow-x-auto">
-                <table class="tx-table w-full max-w-5xl bg-white gap-1 rounded-2xl mx-2">
+                <table class="tx-table !w-full max-w-5xl bg-white gap-1 rounded-2xl mx-2 table-fixed md:tabel-auto">
                     <thead>
                         <tr class="border-b border-gray-100">
                             <th class="text-[0.6rem] px-4 pl-8 py-3 text-left">TANGGAL</th>
-                            <th class="text-[0.6rem] px-2 py-3 text-left col-kode">KODE TRANSAKSI</th>
-                            <th class="text-[0.6rem] px-4 py-3 text-left col-barang">BARANG</th>
+                            <th class="text-[0.6rem] px-2 py-3 text-left hidden md:table-cell col-kode">KODE TRANSAKSI</th>
+                            <th class="text-[0.6rem] px-4 py-3 text-left hidden md:table-cell col-barang">BARANG</th>
                             <th class="text-[0.6rem] px-4 py-3 text-center">TOTAL HARGA</th>
                             <th class="text-[0.6rem] px-4 py-3 text-center">PEMBAYARAN</th>
                             <th class="text-[0.6rem] px-4 pr-8 py-3 text-left">STATUS</th>
@@ -690,10 +690,10 @@
                             @endphp
                             <tr>
                                 <td class="px-4 lg:px-4 py-3">
-                                    <p class="text-gray-800 font-medium whitespace-nowrap text-[0.7rem]  pl-2">
+                                    <p class="text-[#27272A] font-semibold whitespace-nowrap text-[10px] md:text-[0.7rem] pl-2">
                                         {{ $tx->created_at->translatedFormat('d M Y') }}
                                     </p>
-                                    <p class="text-gray-400 text-[0.6rem] pl-2">{{ $tx->created_at->format('H:i') }} WIB</p>
+                                    <p class="text-[#A1A1AA] text-[9px] md:text-[0.6rem] pl-3">{{ $tx->created_at->format('H:i') }} WIB</p>
                                 </td>
 
                                 {{-- Kolom Kode — tersembunyi di mobile --}}
@@ -717,14 +717,14 @@
                                 </td>
 
                                 {{-- Pembayaran --}}
-                                <td class="px-4 py-3 text-gray-600 capitalize text-xs align-middle text-center">
+                                <td class="px-4 py-3 text-[#27272A] capitalize text-[10px] md:text-xs align-middle text-center">
                                     {{ ucfirst($tx->metode_bayar ?? '-') }}
                                 </td>
 
                                 {{-- Status --}}
                                 <td class="items-center">
                                     <span class="px-3 inline-flex items-center text-center gap-1 text-[0.6rem] font-semibold rounded-full {{ $colorClass }}">
-                                        <span class="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0"
+                                        <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0"
                                               style="background:{{ $dotColor }};"></span>
                                         {{-- Label pendek di mobile, lengkap di desktop --}}
                                         <span class="lg:hidden">{{ $statusShort }}</span>
@@ -788,11 +788,11 @@
              Mobile: 1 kolom penuh
              Desktop: 2 kolom
              ══════════════════════════════════════════════════════ --}}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" id="section-kasbon">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="section-kasbon">
 
             {{-- Kasbon Pelanggan ── --}}
             <div>
-                <h3 class="font-manrope font-bold text-gray-900 mb-3">Kasbon Pelanggan</h3>
+                <h3 class="font-manrope font-bold text-[#1A1C19] mb-3">Kasbon Pelanggan</h3>
                 <div class="space-y-2">
                     @forelse ($kasbonPelanggan as $kb)
                         {{-- Semua item tampil flat
@@ -856,7 +856,7 @@
                                     {{ $kb->is_lunas ? 'LUNAS' : 'BELUM LUNAS' }}
                                 </p>
                             </div>
-                            <div class="flex-shrink-0 text-right">
+                            <div class="shrink-0 text-right">
                                 <p class="text-[10px] text-gray-400 mb-1.5 whitespace-nowrap">
                                     {{ $kb->created_at->format('H:i') }} WIB – {{ $kb->created_at->translatedFormat('d M Y') }}
                                 </p>
