@@ -272,7 +272,7 @@
                             TOTAL PENJUALAN
                         </p>
 
-                        <p class="font-manrope text-lg lg:text-[30px] text-[#1A1C19] mt-0.5 leading-tight">
+                        <p class="font-manrope text-lg lg:text-[20px] text-[#1A1C19] mt-0.5 leading-tight">
                             Rp {{ number_format($totalPenjualan, 0, ',', '.') }}
                         </p>
                     </div>
@@ -328,7 +328,7 @@
                 </a>
                 </div>
                 <p class="text-[11px] lg:text-[14px] text-[#40493D] uppercase tracking-wide font-manrope">TOTAL KASBON</p>
-                <p class="font-manrope text-lg lg:text-[30px] text-[#1A1C19] mt-0.5 leading-tight">
+                <p class="font-manrope text-lg lg:text-[20px] text-[#1A1C19] mt-0.5 leading-tight">
                     Rp {{ number_format($totalKasbon, 0, ',', '.') }}
                 </p>
                 {{-- Link Selengkapnya --}}
