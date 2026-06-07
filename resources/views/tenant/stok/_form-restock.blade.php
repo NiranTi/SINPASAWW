@@ -10,6 +10,11 @@
     <select name="barang_id" class="form-select" 
             style="padding-left: 20px !important; width: 100% !important;">
         <option>Pilih barang...</option>
+        @foreach ($semuaBarang as $b)
+        <option value="{{$b->barang_id}}">
+            {{$b->nama}}
+        </option>
+        @endforeach
     </select>
 </div>
 
