@@ -96,6 +96,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/konten/{id}/toggle',  [AdminKontenController::class, 'toggleStatus'])->name('admin.konten.toggle');
 
 });
+/* Logout Admin */
+    Route::post('/logout', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/login');
+    })->name('logout');
+
+        /* Edit Konten*/
+    Route::put('/admin/konten/{id}', [AdminKontenController::class, 'update'])
+    ->name('admin.konten.update');
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 
