@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
-use App\Models\Transaksi;
+use App\Models\transaksi;
 use App\Models\Denah;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class BerandaController extends Controller
         $denahTenants = Tenant::all();
         // return view('guest.denah', compact('denahData', 'denahTenants'));
 
-         
+
         /* ── Tenant list (dengan filter & sort) ── */
         $query = Tenant::with('user:id,name,email')
             ->where('is_active', 1);
