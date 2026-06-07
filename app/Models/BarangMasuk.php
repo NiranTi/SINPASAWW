@@ -13,7 +13,7 @@ class BarangMasuk extends Model
 
     protected $fillable = [
         'supplier_id', 'barang_id', 'tenant_id',
-        'harga_beli', 'qty', 'total_harga',
+        'harga_beli', 'qty', 'unit', 'total_harga',
     ];
 
     protected $casts = [

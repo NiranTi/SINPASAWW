@@ -96,6 +96,7 @@ class StokController extends Controller
                 'supplier_id' => $request->supplier_id,
                 'harga_beli'  => $request->harga_beli,
                 'qty'         => $request->qty,
+                'unit'        => $request->unit,
                 'total_harga' => $totalBeli,
             ]);
 
