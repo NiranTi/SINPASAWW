@@ -204,45 +204,50 @@ function previewGambar(input, previewId, zoneId) {
 }
 
 /* ── Load konten ke form untuk edit ─────────────────────── */
-function editKonten(id, judul, kategori, status, deskripsi, imgUrl) {
-    /* Cari form yang aktif (desktop atau mobile) */
-    const isMobile = window.innerWidth < 1024;
-    const prefix   = isMobile ? 'm' : 'd';
+function editKonten(btn) {
+    const id = btn.dataset.id;
+    const judul = btn.dataset.judul;
+    const kategori = btn.dataset.kategori;
+    const status = btn.dataset.status;
+    const deskripsi = btn.dataset.deskripsi;
+    const imgUrl = btn.dataset.img;
 
-    /* Buka mobile form jika diperlukan */
+    const isMobile = window.innerWidth <1024;
+    const prefix = isMobile ? 'm' : 'd';
+
     if (isMobile && !mobileFormOpen) toggleMobileForm();
 
     const p = s => document.getElementById(prefix + s);
-    if (p('KontenId'))   p('KontenId').value   = id;
-    if (p('Judul'))      p('Judul').value       = judul;
-    if (p('Kategori'))   p('Kategori').value    = kategori;
-    if (p('Status'))     p('Status').value      = status;
-    if (p('Deskripsi'))  p('Deskripsi').value   = deskripsi;
+    if (p('KontenId'))  p('KontenId').value  = id;
+    if (p('Judul'))     p('Judul').value      = judul;
+    if (p('Kategori'))  p('Kategori').value   = kategori;
+    if (p('Status'))    p('Status').value     = status;
+    if (p('Deskripsi')) p('Deskripsi').value  = deskripsi;
 
-    /* Update form action ke route update */
-    const form = document.getElementById(prefix + 'KontenForm');
+     const form = document.getElementById(prefix + 'KontenForm');
     if (form) {
         form.action = `/admin/konten/${id}`;
         const methodInput = form.querySelector('input[name="_method"]');
         if (methodInput) methodInput.value = 'PUT';
     }
 
-    /* Scroll ke form */
-    const formEl = document.getElementById(prefix + 'KontenForm');
-    formEl?.scrollIntoView({ behavior:'smooth', block:'start' });
+    form?.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
 /* ── Inisialisasi edit dari query param ─────────────────── */
 @if ($editKonten)
     document.addEventListener('DOMContentLoaded', function() {
-        editKonten(
-            @json($editKonten->konten_id),
-            @json($editKonten->judul),
-            @json($editKonten->kategori),
-            @json($editKonten->status),
-            @json($editKonten->deskripsi),
-            @json($editKonten->img_url)
-        );
+        const fakeBtn = {
+            dataset: {
+                id:        @json ($editKonten->konten_id),
+                judul:     @json($editKonten->judul),
+                kategori:  @json($editKonten->kategori),
+                status:    @json($editKonten->status),
+                deskripsi: @json($editKonten->deskripsi ?? ''),
+                img:       @json($editKonten->img_url ?? '') 
+            }
+        };
+        editKonten(fakeBtn);
     });
 @endif
 </script>

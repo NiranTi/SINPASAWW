@@ -75,8 +75,8 @@
         .tab-underline-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
 
         /* ── Page labels ── */
-        .page-label   { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin-bottom:4px; }
-        .page-title   { font-family:'Manrope',sans-serif; font-size:clamp(1.6rem,4vw,2.5rem); font-weight:800; color:black; letter-spacing:-.02em; line-height:1.1; }
+        .page-label   { font-size:12px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin-bottom:4px; }
+        .page-title   { font-family:'Manrope',sans-serif; font-size:clamp(1.6rem,4vw,2.5rem); font-weight:700; color:black; letter-spacing:-.02em; line-height:1.1; }
         .page-subtitle{ font-size:13px; color:black; margin-top:6px; }
 
         /* ── Hamburger ── */
@@ -118,7 +118,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
-            <span class="font-manrope font-bold text-sm text-gray-800">Portal Admin</span>
         </div>
 
         {{-- Alert modal ── --}}

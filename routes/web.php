@@ -96,6 +96,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/konten/{id}/toggle',  [AdminKontenController::class, 'toggleStatus'])->name('admin.konten.toggle');
 
 });
+// /* Logout Admin */
+//     Route::post('/logout', function () {
+//         Auth::logout();
+//         request()->session()->invalidate();
+//         request()->session()->regenerateToken();
+//         return redirect('/login');
+//     })->name('logout');
+
+        /* Edit Konten*/
+    Route::put('/admin/konten/{id}', [AdminKontenController::class, 'update'])
+    ->name('admin.konten.update');
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 
@@ -135,3 +146,8 @@ Route::get('/denah',             [GuestController::class, 'denah'])       ->name
 Route::get('/berita/{id}',       [GuestController::class, 'beritaDetail'])->name('guest.berita');
 Route::get('/syarat-ketentuan',  [GuestController::class, 'snk'])         ->name('guest.snk');
 Route::get('/kebijakan-privasi', [GuestController::class, 'privasi'])     ->name('guest.privasi');
+
+Route::get(
+    '/tenant/kasir/struk/{transaksi}',
+    [KasirController::class, 'strukPdf']
+)->name('tenant.kasir.struk');

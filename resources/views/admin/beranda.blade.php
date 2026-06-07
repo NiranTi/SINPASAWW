@@ -132,25 +132,37 @@
     </div>
 
     <div class="bar-wrap">
-        @php $maxVal = max(array_merge($trenData['current'], $trenData['previous'], [1])); @endphp
-        @foreach ($trenData['labels'] as $i => $label)
-            @php
-                $curH      = $maxVal > 0 ? round(($trenData['current'][$i]  / $maxVal) * 100) : 0;
-                $prevH     = $maxVal > 0 ? round(($trenData['previous'][$i] / $maxVal) * 100) : 0;
-                $isBiggest = $trenData['current'][$i] === max($trenData['current']);
-            @endphp
-            <div class="bar-col">
-                <div style="flex:1;display:flex;align-items:flex-end;gap:2px;width:100%;">
-                    <div class="bar" style="height:{{ max($prevH,4) }}%;background:#D1E8DC;flex:1;"></div>
-                    <div class="bar" style="height:{{ max($curH,4) }}%;background:{{ $isBiggest ? 'var(--primary)' : '#A8D5BE' }};flex:1;"></div>
+    @php $maxVal = max(array_merge($trenData['current'], $trenData['previous'], [1])); @endphp
+    @foreach ($trenData['labels'] as $i => $label)
+        @php
+            $curH  = $maxVal > 0 ? round(($trenData['current'][$i]  / $maxVal) * 100) : 0;
+            $prevH = $maxVal > 0 ? round(($trenData['previous'][$i] / $maxVal) * 100) : 0;
+            $isBiggest = $trenData['current'][$i] === max($trenData['current']);
+        @endphp
+        <div class="bar-col">
+            <div style="flex:1;display:flex;align-items:flex-end;gap:2px;width:100%;">
+                <div class="bar prev-bar" 
+                     style="height:{{ max($prevH,4) }}%;background:#D1E8DC;flex:1;cursor:pointer;"
+                     onclick="toggleTren('prev')"
+                     title="Sebelumnya: Rp {{ number_format($trenData['previous'][$i],0,',','.') }}">
                 </div>
-                <span class="bar-label">{{ $label }}</span>
+                <div class="bar curr-bar"
+                     style="height:{{ max($curH,4) }}%;background:{{ $isBiggest ? 'var(--primary)' : '#A8D5BE' }};flex:1;cursor:pointer;"
+                     onclick="toggleTren('curr')"
+                     title="Saat ini: Rp {{ number_format($trenData['current'][$i],0,',','.') }}">
+                </div>
             </div>
-        @endforeach
-    </div>
+            <span class="bar-label">{{ $label }}</span>
+        </div>
+    @endforeach
 </div>
 
-{{-- ══════════════════════════════════════════════════════
+{{-- Info box yang muncul saat diklik --}}
+<div id="trenInfo" class="hidden mt-3 p-3 rounded-xl text-sm" style="background:var(--primary-soft);">
+    <p id="trenInfoText" class="text-sm font-medium" style="color:var(--primary);"></p>
+</div>
+
+<!-- {{-- ══════════════════════════════════════════════════════
      DENAH PASAR — placeholder interaktif
      ══════════════════════════════════════════════════════ --}}
 <div class="mb-8">
@@ -276,7 +288,7 @@
             </span>
         @endforeach
     </div>
-</div>
+</div> -->
 
 {{-- ══════════════════════════════════════════════════════
      DAFTAR TENANT
@@ -477,5 +489,28 @@ function closAllMenus() {
 document.addEventListener('click', e => {
     if (!e.target.closest('.actions-menu')) closAllMenus();
 });
+
+const trenData = {
+    current:  @json($trenData['current']),
+    previous: @json($trenData['previous']),
+    labels:   @json($trenData['labels']),
+};
+
+function toggleTren(type) {
+    const info     = document.getElementById('trenInfo');
+    const infoText = document.getElementById('trenInfoText');
+    const data     = type === 'curr' ? trenData.current : trenData.previous;
+    const label    = type === 'curr' ? 'Saat Ini' : 'Sebelumnya';
+
+    const total = data.reduce((a, b) => a + b, 0);
+    const max   = Math.max(...data);
+    const bulan = trenData.labels[data.indexOf(max)];
+
+    infoText.textContent = 
+        `${label} — Total: Rp ${total.toLocaleString('id-ID')} | Tertinggi: ${bulan} (Rp ${max.toLocaleString('id-ID')})`;
+
+    info.classList.remove('hidden');
+}
+
 </script>
 @endsection

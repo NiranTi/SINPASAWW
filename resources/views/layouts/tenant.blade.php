@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         /* ── Design tokens (dari beranda) ───────────────────── */
@@ -112,11 +113,11 @@
         /* ── Form elements ── */
         .form-group { margin-bottom:1rem; }
         .form-label {
-            display:block; font-size:11px; font-weight:700;
-            letter-spacing:.07em; text-transform:uppercase; color:#6b7280; margin-bottom:5px;
+            display:block; font-size:11px; font-weight:500;
+            letter-spacing:.07em; text-transform:uppercase; color:#707A6C; margin-bottom:5px; padding-left:14px;
         }
         .form-input {
-            width:100%; padding:12px 14px; border-radius:12px; border:none; outline:none;
+            width:100%; padding:12px 14px; border-radius:12px; border:none; outline:none; 
             background:#f0f2f1; font-family:'Be Vietnam Pro',sans-serif;
             font-size:14px; color:#1c1c1c; transition:background .15s, box-shadow .15s;
         }
@@ -124,8 +125,8 @@
         .form-input::placeholder { color:#b0b8bf; }
         .input-prefix-wrap    { position:relative; }
         .input-prefix {
-            position:absolute; left:14px; top:50%; transform:translateY(-50%);
-            font-weight:600; font-size:14px; color:#6b7280; pointer-events:none;
+            position:absolute; left:20px; top:50%; transform:translateY(-50%);
+            font-weight:600; font-size:14px; color:#007E43; pointer-events:none;
         }
         .form-input.has-prefix { padding-left:38px; }
         .form-select {

@@ -55,6 +55,90 @@
     font-weight:800; color:#121212; letter-spacing:-.02em;
 }
 .section-subtitle { font-size:15px; color:#121212; margin-top:.5rem; }
+
+/* ── Denah container ────────────────────────────── */
+.denah-wrap {
+    width:100%; overflow:auto; border-radius:16px;
+    background:#D9D9D9; position:relative;
+    max-height:75vh; min-height:300px;
+    border:1px solid #e5e7eb;
+    cursor:grab;
+}
+.denah-wrap:active { cursor:grabbing; }
+
+.denah-wrap svg {
+    width:100%; min-width:700px;
+    transform-origin:top left;
+    transition:transform .2s ease;
+    display:block;
+}
+
+/* ── Lapak hover ─────────────────────────────────── */
+.denah-wrap svg [class]:not(.galeri-dekranasda):not(.area-pengelola) {
+    cursor:pointer; transition:opacity .15s, filter .1s;
+}
+.denah-wrap svg [class]:not(.galeri-dekranasda):not(.area-pengelola):hover {
+    opacity:.75; filter:brightness(1.1);
+}
+.lapak-dimmed { opacity:.2 !important; }
+
+/* ── Info card ──────────────────────────────────── */
+.info-card {
+    position:fixed; bottom:-100%; left:50%; transform:translateX(-50%);
+    width:min(380px, 95vw); background:#fff; border-radius:20px 20px 0 0;
+    box-shadow:0 -4px 30px rgba(0,0,0,.15); z-index:100;
+    transition:bottom .35s cubic-bezier(.4,0,.2,1);
+    overflow:hidden;
+}
+.info-card.show { bottom:0; }
+
+@media (min-width:768px) {
+    .info-card {
+        position:fixed; bottom:auto; left:auto;
+        top:50%; right:1.5rem; transform:translateY(-50%);
+        border-radius:16px;
+        box-shadow:0 8px 40px rgba(0,0,0,.15);
+        transition:opacity .2s, transform .2s;
+        opacity:0; transform:translateY(-50%) translateX(20px);
+        pointer-events:none;
+    }
+    .info-card.show {
+        opacity:1; transform:translateY(-50%) translateX(0);
+        pointer-events:auto;
+    }
+}
+
+.info-card-image { position:relative; }
+.info-card-image img { width:100%; height:160px; object-fit:cover; }
+.info-badge {
+    position:absolute; bottom:10px; left:12px;
+    padding:3px 10px; border-radius:999px;
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    background:rgba(0,0,0,.55); color:#fff; backdrop-filter:blur(4px);
+}
+.info-card-body { padding:1rem 1.25rem 1.5rem; }
+.info-id { font-size:11px; color:#9ca3af; font-family:monospace; margin-bottom:2px; }
+.info-title { font-family:'Manrope',sans-serif; font-size:1.1rem; font-weight:800; color:#1a1a1a; line-height:1.2; margin-bottom:.4rem; }
+.info-desc { font-size:13px; color:#6b7280; line-height:1.5; margin-bottom:1rem; }
+
+/* ── Legend ──────────────────────────────────────── */
+.legend-item {
+    display:flex; align-items:center; gap:8px; cursor:pointer;
+    padding:5px 10px; border-radius:999px; transition:background .15s;
+    font-size:12px; color:#374151;
+}
+.legend-item:hover { background:#f3f4f6; }
+.legend-item.active { background:#E6F6EE; color:#007E43; font-weight:600; }
+.legend-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+
+/* ── Zoom controls ───────────────────────────────── */
+.zoom-btn {
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    padding:8px 16px; border-radius:999px; border:1.5px solid #e5e7eb;
+    background:#fff; font-size:13px; font-weight:500; color:#374151;
+    cursor:pointer; transition:all .15s; white-space:nowrap;
+}
+.zoom-btn:hover { border-color:#007E43; color:#007E43; }
 </style>
 @endsection
 
@@ -63,7 +147,7 @@
 {{-- ════════════════════════════════════════════════════
      HERO
 ════════════════════════════════════════════════════ --}}
-<section id="hero" class="hero-section">
+<section id="hero" class="hero-section rounded-3xl mt-5 overflow-hidden">
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div class="max-w-4xl">
             <h1 class="text-white font-manrope font-extrabold leading-tight mb-4"
@@ -91,7 +175,7 @@
      FASILITAS
 ════════════════════════════════════════════════════ --}}
 <section id="fasilitas" class="py-16 lg:py-24 bg-[#f5f5f5]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-7 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="section-title">Fasilitas Lengkap</h2>
             <p class="section-subtitle">Kenyamanan Anda adalah prioritas kami saat berbelanja.</p>
@@ -143,53 +227,59 @@
             Gunakan denah interaktif kami untuk menemukan produk yang dicari lebih cepat.
         </p>
 
-        {{-- Preview denah (static image, link ke halaman denah penuh) --}}
-        <div class="relative rounded-2xl overflow-hidden max-w-3xl mx-auto shadow-lg">
-            <img src="{{ asset('images/denah-preview.png') }}"
-                 alt="Denah Pasar Sinpasa"
-                 class="w-full object-cover"
-                 onerror="this.style.display='none'; document.getElementById('denahPlaceholder').style.display='flex';">
-
-            {{-- Fallback placeholder jika gambar belum ada --}}
-            <div id="denahPlaceholder"
-                 class="w-full h-64 lg:h-96 bg-white hidden items-center justify-center rounded-2xl">
-                <div class="text-center text-gray-400">
-                    <svg class="w-16 h-16 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                    </svg>
-                    <p class="text-sm font-medium">Denah Interaktif</p>
-                </div>
-            </div>
-
-            {{-- Overlay dengan tombol ke denah penuh --}}
-            <div class="absolute inset-0 flex items-end justify-center pb-8">
-                <a href="{{ route('guest.denah') }}"
-                   class="btn-primary-guest shadow-xl"
-                   style="font-size:15px;padding:13px 32px;">
-                    Buka Denah Interaktif
-                </a>
-            </div>
+        {{-- Zoom controls --}}
+        <div class="flex items-center justify-end gap-2 mb-3">
+            <button id="btn-zoom-in" class="zoom-btn">+ Perbesar</button>
+            <button id="btn-zoom-reset" class="zoom-btn">Reset</button>
+            <button id="btn-zoom-out" class="zoom-btn">− Perkecil</button>
         </div>
 
-        {{-- Legenda ringkas --}}
-        <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-6 text-xs text-gray-600">
+        {{-- Denah SVG --}}
+        <div class="denah-wrap" id="denahContainer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2132 1032" fill="none" id="denahSvg">
+                @include('components.guest.denah-svg')
+            </svg>
+        </div>
+
+        {{-- Legenda --}}
+        <div class="flex flex-wrap justify-center gap-2 mt-6">
             @foreach ([
-                ['Kios Besar',                    '#4B7AA8'],
-                ['Kios F&B/Kuliner',              '#589A67'],
-                ['Lapak Sayur & Buah',            '#25C54E'],
-                ['Lapak Basah',                   '#DED24D'],
-                ['Lapak Olahan & Jajanan',        '#EB8946'],
-                ['Lapak Non-Halal',               '#C36D8A'],
-            ] as [$nama, $warna])
-                <span class="flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:{{ $warna }};"></span>
-                    {{ $nama }}
-                </span>
+                ['all',                          '#374151', 'Semua Lapak'],
+                ['kios-besar',                   '#4B7AA8', 'Kios Besar'],
+                ['kios-fnb',                     '#589A67', 'Kios F&B/Kuliner'],
+                ['lapak-sayur-buah-dan-jajanan', '#25C54E', 'Lapak Sayur & Buah'],
+                ['lapak-basah',                  '#DED24D', 'Lapak Basah'],
+                ['lapak-olahan-dan-jajanan',     '#EB8946', 'Lapak Olahan & Jajanan'],
+                ['lapak-non-halal',              '#C36D8A', 'Lapak Non-Halal'],
+            ] as [$filter, $warna, $label])
+                <button class="legend-item {{ $filter === 'all' ? 'active' : '' }}"
+                        data-filter="{{ $filter }}">
+                    <span class="legend-dot" style="background:{{ $warna }};"></span>
+                    {{ $label }}
+                </button>
             @endforeach
         </div>
     </div>
-</section>
 
+    {{-- Info card popup --}}
+    <div id="infoCard" class="info-card" role="dialog">
+        <div class="info-card-image">
+            <img id="infoImage" src="{{ asset('images/default-lapak.jpg') }}" alt="Foto Tenant">
+            <span id="infoBadge" class="info-badge">KATEGORI</span>
+            <button id="infoClose"
+                    class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center bg-black/50 text-white rounded-full text-lg leading-none">×</button>
+        </div>
+        <div class="info-card-body">
+            <p id="infoId" class="info-id"></p>
+            <h2 id="infoTitle" class="info-title"></h2>
+            <p id="infoDesc" class="info-desc"></p>
+        </div>
+    </div>
+    <div id="infoOverlay" class="fixed inset-0 bg-black/30 z-50 hidden md:hidden" onclick="closeInfoCard()"></div>
+
+    {{-- Tenant data JSON --}}
+    <script id="tenantData" type="application/json">@json($denahTenants)</script>
+</section>
 {{-- ════════════════════════════════════════════════════
      TESTIMONI
 ════════════════════════════════════════════════════ --}}
@@ -251,45 +341,136 @@
         </div>
     </div>
 </section>
+@endsection
 
-{{-- ════════════════════════════════════════════════════
-     BERITA TERBARU (dari database konten)
-════════════════════════════════════════════════════ --}}
-@if ($beritaTerbaru->count())
-<section class="py-16 lg:py-24 bg-[#FAFAF5]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="section-title text-center mb-10">Berita &amp; Promosi Terbaru</h2>
+@section('scripts')
+<script>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            @foreach ($beritaTerbaru as $k)
-            <a href="{{ route('guest.berita', $k->konten_id) }}" class="berita-card group">
-                {{-- Gambar --}}
-                @if ($k->img_url)
-                    <img src="{{ asset('storage/' . $k->img_url) }}"
-                         alt="{{ $k->judul }}"
-                         class="w-full object-cover"
-                         style="aspect-ratio:16/9;">
-                @else
-                    <div class="w-full bg-[#E6F6EE] flex items-center justify-center" style="aspect-ratio:16/9;">
-                        <svg class="w-10 h-10 text-green-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                @endif
-                <div class="p-4">
-                    <span class="kategori-pill mb-2 inline-block">{{ strtoupper($k->kategori) }}</span>
-                    <h3 class="font-manrope font-bold text-gray-900 text-sm leading-snug line-clamp-2 mb-1 group-hover:text-[#007E43] transition-colors"
-                        style="font-family:'Manrope',sans-serif;">
-                        {{ $k->judul }}
-                    </h3>
-                    <p class="text-xs text-gray-500 line-clamp-2">{{ $k->deskripsi }}</p>
-                    <p class="text-[10px] text-gray-400 mt-2">{{ $k->created_at->translatedFormat('d F Y') }}</p>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
+(function () {
+    const tenantData = JSON.parse(document.getElementById('tenantData')?.textContent || '{}');
 
+    const imgMap = {
+        sayur:    '{{ asset("images/sayuran.png") }}',
+        basah:    '{{ asset("images/daging.png") }}',
+        olahan:   '{{ asset("images/jajanan.png") }}',
+        'non-halal': '{{ asset("images/nonhalal.png") }}',
+        fnb:      '{{ asset("images/kuliner.png") }}',
+        kuliner:  '{{ asset("images/kuliner.png") }}',
+        default:  '{{ asset("images/default-lapak.jpg") }}',
+    };
+
+    function getImg(kategori) {
+        if (!kategori) return imgMap.default;
+        const k = kategori.toLowerCase();
+        if (k.includes('sayur') || k.includes('buah')) return imgMap.sayur;
+        if (k.includes('basah') || k.includes('daging') || k.includes('ikan')) return imgMap.basah;
+        if (k.includes('olahan') || k.includes('jajanan')) return imgMap.olahan;
+        if (k.includes('non-halal') || k.includes('non halal')) return imgMap['non-halal'];
+        if (k.includes('fnb') || k.includes('f&b') || k.includes('kuliner')) return imgMap.kuliner;
+        return imgMap.default;
+    }
+
+    const infoCard    = document.getElementById('infoCard');
+    const infoOverlay = document.getElementById('infoOverlay');
+    const infoImage   = document.getElementById('infoImage');
+    const infoBadge   = document.getElementById('infoBadge');
+    const infoId      = document.getElementById('infoId');
+    const infoTitle   = document.getElementById('infoTitle');
+    const infoDesc    = document.getElementById('infoDesc');
+    const btnClose    = document.getElementById('infoClose');
+
+    function showInfoCard(lapakId, cssClass) {
+        const t = tenantData[lapakId];
+        infoId.textContent    = lapakId;
+        infoTitle.textContent = t?.nama      ?? lapakId;
+        infoDesc.textContent  = t?.deskripsi ?? 'Belum ada informasi detail.';
+        infoBadge.textContent = (t?.kategori ?? cssClass.replace(/-/g,' ')).toUpperCase();
+        infoImage.src = t?.foto ?? getImg(t?.kategori ?? cssClass);
+        infoCard.classList.add('show');
+        infoOverlay.classList.remove('hidden');
+    }
+
+    function closeInfoCard() {
+        infoCard.classList.remove('show');
+        infoOverlay.classList.add('hidden');
+    }
+
+    btnClose?.addEventListener('click', closeInfoCard);
+
+    const interactiveClasses = [
+        'lapak-sayur-buah-dan-jajanan','lapak-olahan-dan-jajanan','lapak-non-halal',
+        'lapak-basah','lapak-kuliner','kios-besar','kios-kecil','kios-fnb',
+        'atm','mushola','toilet',
+    ];
+
+    const svg = document.getElementById('denahSvg');
+    const lapakEls = svg ? svg.querySelectorAll(interactiveClasses.map(c => '.' + c).join(',')) : [];
+
+    lapakEls.forEach(el => {
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', () => {
+            showInfoCard(el.id || '', el.classList[0] || '');
+        });
+    });
+
+    // Filter legend
+    document.querySelectorAll('.legend-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.legend-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const f = btn.dataset.filter;
+            lapakEls.forEach(el => {
+                if (f === 'all' || el.classList.contains(f)) {
+                    el.classList.remove('lapak-dimmed');
+                } else {
+                    el.classList.add('lapak-dimmed');
+                }
+            });
+        });
+    });
+
+    // Zoom
+    let scale = 1;
+    const svgEl     = document.getElementById('denahSvg');
+    const container = document.getElementById('denahContainer');
+
+    function applyZoom() {
+        if (svgEl) svgEl.style.transform = `scale(${scale})`;
+    }
+
+    document.getElementById('btn-zoom-in')?.addEventListener('click', () => {
+        scale = Math.min(3, parseFloat((scale + 0.3).toFixed(1)));
+        applyZoom();
+    });
+    document.getElementById('btn-zoom-out')?.addEventListener('click', () => {
+        scale = Math.max(0.5, parseFloat((scale - 0.3).toFixed(1)));
+        applyZoom();
+    });
+    document.getElementById('btn-zoom-reset')?.addEventListener('click', () => {
+        scale = 1;
+        applyZoom();
+        if (container) { container.scrollTop = 0; container.scrollLeft = 0; }
+        closeInfoCard();
+    });
+
+    // Pinch zoom mobile
+    let startDist = null, startScale = 1;
+    container?.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+            startDist  = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            startScale = scale;
+        }
+    }, { passive: true });
+
+    container?.addEventListener('touchmove', e => {
+        if (e.touches.length === 2 && startDist) {
+            const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            scale = Math.min(3, Math.max(0.5, startScale * (dist / startDist)));
+            applyZoom();
+        }
+    }, { passive: true });
+
+    container?.addEventListener('touchend', () => { startDist = null; });
+})();
+</script>
 @endsection

@@ -10,17 +10,22 @@
     <select name="barang_id" class="form-select" 
             style="padding-left: 20px !important; width: 100% !important;">
         <option>Pilih barang...</option>
+        @foreach ($semuaBarang as $b)
+        <option value="{{$b->barang_id}}">
+            {{$b->nama}}
+        </option>
+        @endforeach
     </select>
 </div>
 
-{{-- Supplier — Ditambah margin-left minus --}}
+{{-- Supplier  --}}
 <div class="form-group">
     <label class="form-label" style="margin-left: 15px !important;">SUPPLIER</label>
     <input type="text" name="supplier_id" placeholder="Pilih supplier..."
     class="form-input" required>
 </div>
 
-{{-- Baris Jumlah & Unit — Dorong kedua labelnya ke kanan sedikit --}}
+{{-- Baris Jumlah & Unit  --}}
 <div class="grid grid-cols-2 gap-4 mb-4">
     {{-- Jumlah --}}
     <div class="form-group">
@@ -35,35 +40,41 @@
     </div>
 </div>
 
-{{-- Harga Per Unit — Ditambah margin-left minus --}}
+{{-- Harga Per Unit --}}
 <div class="form-group">
     <label class="form-label" style="margin-left: 15px !important;">HARGA PER UNIT</label>
-    <input type="number" name="harga_per_unit" class="form-input" placeholder="Rp 0" required>
+    <div class="input-prefix-wrap">
+        <span class="input-prefix"> Rp </span>
+        <input type="number" name="harga_per_unit"
+               class="form-input has-prefix"
+               value="{{ old('harga_jual') }}" placeholder="0" required>
+    </div>
 </div>
 
-{{-- Nominal Diberikan — Ditambah margin-left minus --}}
+{{-- Nominal Diberikan  --}}
 <div class="form-group">
     <label class="form-label" style="margin-left: 15px !important;">NOMINAL DIBERIKAN</label>
-    <input type="number" name="nominal_diberikan" class="form-input" placeholder="Rp 0" required>
+    <div class="input-prefix-wrap">
+        <span class="input-prefix"> Rp </span>
+        <input type="number" name="harga_per_unit"
+               class="form-input has-prefix"
+               value="{{ old('harga_jual') }}" placeholder="0" required>
+    </div>
 </div>
 
 {{-- Metode bayar ke supplier: QRIS / TUNAI --}}
 <div class="flex gap-2 mb-4">
     <button type="button" id="{{ $prefix }}RsBtnQRIS"
-            class="restock-pay-btn" onclick="setRestockMetode('{{ $prefix }}', 'qris')">
-        <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5z"/>
-        </svg>
-        QRIS
+            class="restock-pay-btn flex flex-col gap-2" onclick="setRestockMetode('{{ $prefix }}', 'qris')">
+        <i class="fa-solid fa-qrcode text-[15px]"></i>QRIS
     </button>
+    
     <button type="button" id="{{ $prefix }}RsBtnTUNAI"
-            class="restock-pay-btn active" onclick="setRestockMetode('{{ $prefix }}', 'tunai')">
-        <svg class="w-5 h-5 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75"/>
-        </svg>
-        TUNAI
+            class="restock-pay-btn active flex flex-col gap-2" onclick="setRestockMetode('{{ $prefix }}', 'tunai')">
+        <i class="fa-solid fa-money-bill text-[15px]"></i> TUNAI
     </button>
 </div>
+
 <input type="hidden" name="metode_bayar" id="{{ $prefix }}RsMetode" value="tunai">
 
 {{-- Ringkasan pembayaran supplier --}}

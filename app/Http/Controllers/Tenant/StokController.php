@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
+use App\Models\barang;
 use App\Models\BarangMasuk;
-use App\Models\Kasbon;
+use App\Models\kasbon;
 use App\Models\Supplier;
 use App\Models\transaksi_barang;
 use Illuminate\Http\Request;
@@ -96,6 +96,7 @@ class StokController extends Controller
                 'supplier_id' => $request->supplier_id,
                 'harga_beli'  => $request->harga_beli,
                 'qty'         => $request->qty,
+                'unit'        => $request->unit,
                 'total_harga' => $totalBeli,
             ]);
 

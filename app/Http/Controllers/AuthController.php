@@ -51,6 +51,7 @@ class AuthController extends Controller
         Tenant::create([
         'user_id' => $user->id,
         'nama_tenant' => $request->name,
+        'is_active' => 1,
         ]);
 
         // AUTO LOGIN

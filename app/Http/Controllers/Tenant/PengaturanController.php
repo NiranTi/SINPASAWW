@@ -55,6 +55,7 @@ class PengaturanController extends Controller
         $tenantData = [
             'nama_tenant' => $request->nama_tenant,
             'kategori'    => $request->kategori,
+            'blok'        => $request->denah_id,
         ];
 
         /* ── Handle foto upload ── */

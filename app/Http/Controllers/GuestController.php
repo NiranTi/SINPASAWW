@@ -14,7 +14,18 @@ class GuestController extends Controller
         /* 3 konten aktif terbaru untuk ditampilkan di homepage */
         $beritaTerbaru = Konten::aktif()->latest()->take(3)->get();
 
-        return view('guest.index', compact('beritaTerbaru'));
+        $denahTenants = Denah::with('tenant:tenant_id,nama_tenant,kategori,foto,deskripsi')
+        ->get()
+        ->mapWithKeys(fn($d) => [
+            $d->denah_id => [
+                'nama'      => $d->tenant?->nama_tenant ?? 'Belum ada informasi',
+                'kategori'  => $d->tenant?->kategori    ?? '',
+                'deskripsi' => $d->tenant?->deskipsi    ?? 'Belum ada informasi detail.',
+                'foto'      => $d->tenant?->foto ? asset($d->tenant->foto) : null,
+            ]
+        ]);
+
+        return view('guest.index', compact('beritaTerbaru', 'denahTenants'));
     }
 
     /* ── Denah Interaktif ───────────────────────────────────────────── */

@@ -173,7 +173,7 @@
                 <div class="form-group" style="padding-left: 15px !important;">
                     <label class="form-label">KATEGORI</label>
                     <select name="kategori" class="form-select @error('kategori') ring-2 ring-red-300 @enderror">
-                    @foreach (['Lapak Basah','Lapak Kering','Bahan Pangan Mentah','Sayuran','Buah-buahan','Daging & Ikan','Bumbu & Rempah','Sembako','Lainnya'] as $opt)
+                    @foreach (['Lapak Basah','Kios Besar','Kios Kecil','Kios F&B/Kuliner','Lapak Sayur, Buah dan Jajanan','Lapak Non-Halal', 'Lapak Olahan dan Jajanan', 'Pojok Kuliner', 'Galeri Dekranasda'] as $opt)
                 <option value="{{ $opt }}" {{ old('kategori', $tenant->kategori) === $opt ? 'selected' : '' }}>
                 {{ $opt }}
                 </option>

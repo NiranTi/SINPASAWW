@@ -33,9 +33,9 @@
 
             <a href="{{ route($link['route']) }}"
                onclick="closeSidebar()"
-               class="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-reguler font-[Be Vietnam Pro]
+               class="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[0.7rem]
                       transition-all duration-150
-                      {{ $active ? 'text-white' : 'text-gray-500' }}"
+                      {{ $active ? 'text-white' : 'text-[#007E43]' }}"
                style="{{ $active ? 'background-color:#007E43;' : '' }}"
                @if(!$active)
                    onmouseenter="this.style.backgroundColor='#EAF7F1'; this.style.color='#007E43';"
@@ -50,7 +50,7 @@
                     </svg>
                 @else
                     {{-- Content/document icon --}}
-                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
@@ -60,6 +60,22 @@
             </a>
         @endforeach
     </nav>
+    {{---Logout---}}
+    <div class="px-3 pb-2">
+        <form method="POST" action="{{route('logout')}}">
+            @csrf
+            <button type="submit"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[0.7rem] w-full text-[#007E43] transition-all duration-150"
+                onmouseenter="this.style.backgroundColor='#FEE2E2'; this.style.color='#DC2626';"
+                onmouseleave="this.style.backgroundColor=''; this.style.color='';">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            Logout
+            </button>
+        </form>
+    </div>
 </aside>
 
 <script>

@@ -15,6 +15,7 @@ class Tenant extends Model
         'user_id',
         'nama_tenant',
         'kategori',
+        'blok',
         'foto',
         'deskripsi',
         'lama_kontrak',

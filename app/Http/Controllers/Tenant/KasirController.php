@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
-use App\Models\Transaksi;
+use App\Models\barang;
+use App\Models\transaksi;
 use App\Models\transaksi_barang;
-use App\Models\Kasbon;
+use App\Models\kasbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KasirController extends Controller
 {
@@ -33,6 +34,36 @@ class KasirController extends Controller
         $kodeTransaksi = 'PS-' . str_pad($lastId + 1, 5, '0', STR_PAD_LEFT);
 
         return view('tenant.kasir', compact('tenant', 'barang', 'kodeTransaksi'));
+    }
+    public function strukPdf($id)
+    {
+        $tenant = Auth::user()->tenant;
+
+        $transaksi = Transaksi::where(
+                'tenant_id',
+                $tenant->tenant_id
+            )
+            ->findOrFail($id);
+
+        $detail = transaksi_barang::with('barang')
+            ->where('transaksi_id', $id)
+            ->get();
+
+        $pdf = Pdf::loadView(
+            'tenant.kasir.struk-pdf',
+            compact(
+                'transaksi',
+                'detail',
+                'tenant'
+            )
+        );
+        $tinggi = 300 + ($detail->count() * 35);
+
+        $pdf->setPaper([0, 0, 226.77, $tinggi], 'portrait');
+
+        return $pdf->stream(
+            'struk-'.$id.'.pdf'
+        );
     }
 
     /* ── Proses Bayar ──────────────────────────────────────────────── */
@@ -70,8 +101,9 @@ class KasirController extends Controller
                 );
             }
         }
+        $transaksi = null;
         try {
-        DB::transaction(function () use ($request, $tenant, $items) {
+        $transaksi = DB::transaction(function () use ($request, $tenant, $items) {
             /* ── Hitung total ── */
             $subtotal = collect($items)->sum(fn($i) => $i['qty'] * $i['harga']);
             $pajak    = 0; // bisa dikonfigurasi
@@ -127,13 +159,20 @@ class KasirController extends Controller
                     'tenggat'      => now()->addDays(30),
                 ]);
             }
+            return $transaksi;
         });
 
-        return redirect()->route('tenant.kasir')
-            ->with([
-                'alert' => 'Pembayaran Anda berhasil!',
-                'alert_type' => 'success'
-            ]);
+        if ($request->print_struk) {
+            return redirect()->route(
+                'tenant.kasir.struk',
+                $transaksi->transaksi_id
+            );
+        }
+            return redirect()->route('tenant.kasir')
+                ->with([
+                    'alert' => 'Pembayaran Anda berhasil!',
+                    'alert_type' => 'success'
+                ]);
     } catch (\Exception $e) {
 
         return back()

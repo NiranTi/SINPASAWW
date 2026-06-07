@@ -25,8 +25,8 @@
 /* ── Payment toggle di form restock ── */
 .restock-pay-btn {
     flex:1; padding:12px 8px; border-radius:12px; border:1.5px solid #e5e7eb;
-    background:#fff; cursor:pointer; transition:all .15s; text-align:center;
-    font-size:11px; font-weight:600; color:#6b7280;
+    background:#F4F4EF; cursor:pointer; transition:all .15s; text-align:center;
+    font-size:11px; font-weight:600; color:black;
 }
 .restock-pay-btn.active { border-color:var(--primary); background:var(--primary); color:#fff; }
 .restock-pay-btn:not(.active):hover { border-color:var(--primary); color:var(--primary); }
@@ -75,7 +75,8 @@
         {{-- Form Perbarui Stok / Restock (desktop) --}}
         <div class="form-card">
             <h3 class="font-manrope font-bold text-gray-800 mb-4">Perbarui Stok</h3>
-            <form method="POST" action="{{ route('tenant.stok.restock') }}" id="dRestockForm">
+            <form method="POST" action="{{ route('tenant.stok.restock') }}" id="dRestockForm"
+                class="grid grid-cols-1 gap-x-4 gap-y-0">
                 @csrf
                 @include('tenant.stok._form-restock', ['prefix' => 'd'])
                 <button type="submit" class="btn-primary mt-2 w-full p-2">
@@ -156,13 +157,13 @@
 
             {{-- ── Tabel stok ── --}}
             <div class="overflow-x-auto mt-3 bg-white rounded-2xl">
-                <table class="stok-table w-full">
+                <table class="stok-table !w-full max-w-5xl bg-white gap-1 rounded-2xl mx-2 table-fixed md:tabel-auto">
                     <thead>
                         <tr class="border-b border-gray-100">
                             <th class="px-5 py-3 text-left">BARANG</th>
-                            <th class="px-4 py-3 text-left">STOK</th>
+                            <th class="px-4 py-3 text-left hidden md:table-cell col-kode">STOK</th>
                             <th class="px-4 py-3 text-left">HARGA PER</th>
-                            <th class="px-4 py-3 text-left">PENJUALAN</th>
+                            <th class="px-4 py-3 text-left hidden md:table-cell col-kode">PENJUALAN</th>
                             <th class="px-4 py-3 text-left">STATUS</th>
                             <th class="px-4 py-3 w-8"></th>
                         </tr>
@@ -177,17 +178,17 @@
                                 };
                             @endphp
                             <tr>
-                                <td class="px-5 py-3 font-medium text-gray-800 text-sm">{{ $b->nama }}</td>
-                                <td class="px-4 py-3 text-gray-600 text-sm whitespace-nowrap">{{ $b->stok }}</td>
-                                <td class="px-4 py-3 text-gray-600 text-sm whitespace-nowrap">
+                                <td class="px-5 py-3 font-medium text-[#27272A] text-sm">{{ $b->nama }}</td>
+                                <td class="px-4 py-3 text-[#27272A] md:text-sm whitespace-nowrap hidden md:table-cell col-kode col-kode">{{ $b->stok }}</td>
+                                <td class="px-4 py-3 text-[#27272A] text-sm whitespace-nowrap">
                                     Rp {{ number_format($b->harga_jual, 0, ',', '.') }}
                                 </td>
-                                <td class="px-4 py-3 text-gray-600 text-sm">
+                                <td class="px-4 py-3 text-[#27272A] text-sm hidden md:table-cell col-kode">
                                     {{ number_format($b->total_terjual ?? 0, 0, ',', '.') }}x
                                 </td>
                                 <td class="px-4 py-3">
                                     <span class="stok-badge" style="color:{{ $status['color'] }};">
-                                        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 inline-block"
+                                        <span class="w-1.5 h-1.5 rounded-full shrink-0 inline-block"
                                               style="background:{{ $status['dot'] }};"></span>
                                         {{ $status['label'] }}
                                     </span>

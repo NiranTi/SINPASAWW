@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale('id');
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         
         // Create Services/Denah directory structure
         $this->createServicesDenahDirectory();
