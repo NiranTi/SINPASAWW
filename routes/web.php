@@ -125,6 +125,8 @@ use App\Http\Controllers\DenahController;
 
 Route::get('/denah', [DenahController::class, 'index'])
     ->name('denah');
+Route::get('/denah/rute', [DenahController::class, 'show3D'])
+    ->name('denah.3d');
 
 use App\Http\Controllers\GuestController;
 

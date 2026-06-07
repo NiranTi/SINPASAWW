@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #c7acac;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: rgb(38, 54, 197);
+    text-shadow: 2px 2px 4px rgba(206, 55, 55, 0.8);
+    pointer-events: none; /* Supaya tidak mengganggu klik mouse pada game */
+}
+
+#ui h1 { margin: 0 0 5px 0; font-size: 24px; }
+#ui p { margin: 0; font-size: 14px; opacity: 0.8; }
+
+/* Gaya Kartu Informasi Tenant */
+#tenant-card {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(20, 20, 25, 0.95);
+    border: 1px solid #333;
+    border-left: 5px solid #1f6feb;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    width: 300px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    /* UBAH INI: Agar tombol 'X' di dalam card bisa diklik */
+    pointer-events: auto; 
+    z-index: 100;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #8b949e;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#tenant-card h2 { margin: 0 0 10px 0; font-size: 20px; color: #58a6ff; }
+#tenant-card p { margin: 0; font-size: 12px; color: #c9d1d9; }
+
+#close-card {
+    background: none;
+    border: none;
+    color: #ff7b72;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+/* TATA LETAK MOBILE (HP) */
+@media (max-width: 600px) {
+    #tenant-card {
+        width: calc(100% - 40px); /* Penuhi lebar layar HP dengan margin */
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        box-sizing: border-box;
+    }
+}

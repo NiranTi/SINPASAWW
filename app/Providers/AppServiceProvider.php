@@ -22,5 +22,19 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale('id');
+        
+        // Create Services/Denah directory structure
+        $this->createServicesDenahDirectory();
+    }
+    
+    /**
+     * Create the app/Services/Denah directory structure
+     */
+    private function createServicesDenahDirectory(): void
+    {
+        $denahPath = app_path('Services/Denah');
+        if (!is_dir($denahPath)) {
+            @mkdir($denahPath, 0755, true);
+        }
     }
 }

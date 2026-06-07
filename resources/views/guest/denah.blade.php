@@ -37,7 +37,10 @@
     width:min(380px, 95vw); background:#fff; border-radius:20px 20px 0 0;
     box-shadow:0 -4px 30px rgba(0,0,0,.15); z-index:100;
     transition:bottom .35s cubic-bezier(.4,0,.2,1);
-    overflow:hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh; 
+    overflow: hidden;
 }
 .info-card.show { bottom:0; }
 
@@ -51,6 +54,7 @@
         transition:opacity .2s, transform .2s;
         opacity:0; transform:translateY(-50%) translateX(20px);
         pointer-events:none;
+        max-height: 90vh;
     }
     .info-card.show {
         opacity:1; transform:translateY(-50%) translateX(0);
@@ -58,7 +62,7 @@
     }
 }
 
-.info-card-image { position:relative; }
+.info-card-image { position:relative; flex-shrink: 0;}
 .info-card-image img { width:100%; height:160px; object-fit:cover; }
 .info-badge {
     position:absolute; bottom:10px; left:12px;
@@ -66,7 +70,11 @@
     font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
     background:rgba(0,0,0,.55); color:#fff; backdrop-filter:blur(4px);
 }
-.info-card-body { padding:1rem 1.25rem 1.5rem; }
+.info-card-body { 
+    padding:1rem 1.25rem 1.5rem;
+    overflow-y: auto;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+}
 .info-id { font-size:11px; color:#9ca3af; font-family:monospace; margin-bottom:2px; }
 .info-title { font-family:'Manrope',sans-serif; font-size:1.1rem; font-weight:800; color:#1a1a1a; line-height:1.2; margin-bottom:.4rem; }
 .info-desc { font-size:13px; color:#6b7280; line-height:1.5; margin-bottom:1rem; }
@@ -121,8 +129,9 @@
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
     <div class="denah-wrap" id="denahContainer">
         {{-- EMBEDDED SVG dari denah.html asli --}}
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2132 1032" fill="none" id="denahSvg">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2124 1024" fill="none" id="denahSvg">
             @include('components.guest.denah-svg')
+            <polyline id="dijkstraPath" points="" stroke="#00AAFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" style="filter: drop-shadow(0px 0px 8px #00AAFF); opacity: 0.9; pointer-events: none;" />
         </svg>
     </div>
 </div>
@@ -144,6 +153,7 @@
             ['mushola',                          '#8E9176', 'Mushola'],
             ['atm',                              '#827E8E', 'ATM Center'],
             ['toilet',                           '#A78A85', 'Toilet'],
+            ['area-pengelola',                   '#D9D9D9', 'Area Pengelola'],
         ] as [$filter, $warna, $label])
             <button class="legend-item {{ $filter === 'all' ? 'active' : '' }}"
                     data-filter="{{ $filter }}">
@@ -169,11 +179,24 @@
         <p id="infoId" class="info-id">L000</p>
         <h2 id="infoTitle" class="info-title">Nama Toko</h2>
         <p id="infoDesc" class="info-desc">Deskripsi toko akan muncul di sini.</p>
+
         <a href="#" id="infoLink"
            class="btn-primary-guest w-full justify-center text-sm py-2.5 hidden"
            style="font-size:13px; padding:10px 20px; display:none;">
             Kunjungi Profil Toko
         </a>
+
+        <div id="navStatus" class="text-xs" style="margin-bottom: 10px; padding: 8px; background: #f3f4f6; border-radius: 6px; font-size: 12px; color: #4b5563;">
+            📍 Titik Awal: <span id="txtStartNode" style="font-weight: bold; color: #007E43;">Belum ditentukan (Klik Manual di Denah / Scan QR Terdekat)</span>
+        </div>
+
+        <button id="btnPilihStart" class="zoom-btn w-full justify-center mb-2" style="width:100%; margin-bottom:8px; display:block;">
+            🎯 Jadikan Ini Titik Awal Navigasi
+        </button>
+        
+        <button id="btnNavigasi3d" class="btn-secondary" style="display: block; width: 100%; margin-top: 10px; padding: 10px; background-color: #1f6feb; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Mulai Navigasi 3D ke Sini
+        </button>
     </div>
 </div>
 
@@ -187,160 +210,235 @@
 @endsection
 
 @section('scripts')
+{{-- Compile dlu bundle script lewat Vite --}}
+@vite(['resources/js/dijkstra.js'])
+
 <script>
-(function () {
-    /* ── Data tenant dari DB ── */
-    const tenantData = JSON.parse(document.getElementById('tenantData').textContent || '{}');
+    (function () {
+        let graphData = null;
+        let startNodeId = null; 
+        let currentTargetLapakId = null;
+        const tenantData = JSON.parse(document.getElementById('tenantData').textContent || '{}');
+        let data = { nodes: {}, edges: [] };
 
-    /* ── Kategori → gambar default ── */
-    const imgMap = {
-        sayur:    '{{ asset("images/sayuran.png") }}',
-        basah:    '{{ asset("images/daging.png") }}',
-        olahan:   '{{ asset("images/jajanan.png") }}',
-        'non-halal': '{{ asset("images/nonhalal.png") }}',
-        fnb:      '{{ asset("images/kuliner.png") }}',
-        kuliner:  '{{ asset("images/kuliner.png") }}',
-        default:  '{{ asset("images/default-lapak.jpg") }}',
-    };
+        // ==========================================
+        // A. EKSTRAK NODES (Sama seperti sebelumnya)
+        // ==========================================
+        const lingkaranSvg = document.querySelectorAll('#denahSvg circle[id^="node-"]');
+        lingkaranSvg.forEach(circle => {
+            const nodeId = circle.id;
+            const cx = parseFloat(circle.getAttribute('cx')) || 0;
+            const cy = parseFloat(circle.getAttribute('cy')) || 0;
 
-    function getImg(kategori) {
-        if (!kategori) return imgMap.default;
-        const k = kategori.toLowerCase();
-        if (k.includes('sayur') || k.includes('buah')) return imgMap.sayur;
-        if (k.includes('basah') || k.includes('daging') || k.includes('ikan')) return imgMap.basah;
-        if (k.includes('olahan') || k.includes('jajanan')) return imgMap.olahan;
-        if (k.includes('non-halal') || k.includes('non halal')) return imgMap['non-halal'];
-        if (k.includes('fnb') || k.includes('f&b') || k.includes('kuliner')) return imgMap.kuliner;
-        return imgMap.default;
-    }
-
-    /* ── Info card DOM refs ── */
-    const infoCard    = document.getElementById('infoCard');
-    const infoOverlay = document.getElementById('infoOverlay');
-    const infoImage   = document.getElementById('infoImage');
-    const infoBadge   = document.getElementById('infoBadge');
-    const infoId      = document.getElementById('infoId');
-    const infoTitle   = document.getElementById('infoTitle');
-    const infoDesc    = document.getElementById('infoDesc');
-    const infoLink    = document.getElementById('infoLink');
-    const btnClose    = document.getElementById('infoClose');
-
-    function showInfoCard(lapakId, cssClass) {
-        const t = tenantData[lapakId];
-
-        infoId.textContent    = lapakId;
-        infoTitle.textContent = t?.nama      ?? formatId(lapakId);
-        infoDesc.textContent  = t?.deskripsi ?? 'Belum ada informasi detail.';
-        infoBadge.textContent = (t?.kategori ?? cssClass.replace(/-/g,' ')).toUpperCase();
-
-        /* Gambar: foto tenant dari DB atau fallback berdasar kategori */
-        infoImage.src = t?.foto ?? getImg(t?.kategori ?? cssClass);
-
-        /* Sembunyikan link profil (tidak relevan di guest) */
-        infoLink.style.display = 'none';
-
-        infoCard.classList.add('show');
-        infoOverlay.classList.remove('hidden'); // hanya mobile
-    }
-
-    function closeInfoCard() {
-        infoCard.classList.remove('show');
-        infoOverlay.classList.add('hidden');
-    }
-
-    btnClose?.addEventListener('click', closeInfoCard);
-
-    function formatId(id) {
-        return id.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
-    }
-
-    /* ── Pasang listener ke semua elemen lapak dalam SVG ── */
-    const interactiveClasses = [
-        'lapak-sayur-buah-dan-jajanan','lapak-olahan-dan-jajanan','lapak-non-halal',
-        'lapak-basah','lapak-kuliner','kios-besar','kios-kecil','kios-fnb',
-        'atm','mushola','toilet',
-    ];
-
-    const svg = document.getElementById('denahSvg');
-    const lapakEls = svg ? svg.querySelectorAll(interactiveClasses.map(c => '.' + c).join(',')) : [];
-
-    lapakEls.forEach(el => {
-        el.style.cursor = 'pointer';
-        el.addEventListener('click', () => {
-            const id  = el.id || '';
-            const cls = el.classList[0] || '';
-            showInfoCard(id, cls);
+            data.nodes[nodeId] = {
+                x: cx,
+                y: cy,
+                label: nodeId.replace('node-', '').replace(/_/g, ' ').toUpperCase()
+            };
         });
-    });
 
-    /* ── Filter / Legend ── */
-    document.querySelectorAll('.legend-item').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.legend-item').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const f = btn.dataset.filter;
-            lapakEls.forEach(el => {
-                if (f === 'all' || el.classList.contains(f)) {
-                    el.classList.remove('lapak-dimmed');
-                } else {
-                    el.classList.add('lapak-dimmed');
+        // ==========================================
+        // B. EKSTRAK EDGES + GAMBAR STROKE OTOMATIS
+        // ==========================================
+        const garisJalur = document.querySelectorAll('#denahSvg line[data-from][data-to]');
+        garisJalur.forEach(line => {
+            const fromNode = line.getAttribute('data-from');
+            const toNode = line.getAttribute('data-to');
+
+            if (data.nodes[fromNode] && data.nodes[toNode]) {
+                const nodeA = data.nodes[fromNode];
+                const nodeB = data.nodes[toNode];
+
+                // 💡 TRIKNYA DI SINI: SUNTIKKAN KOORDINAT VISUAL KE ELEMEN <line> SECARA OTOMATIS!
+                line.setAttribute('x1', nodeA.x);
+                line.setAttribute('y1', nodeA.y);
+                line.setAttribute('x2', nodeB.x);
+                line.setAttribute('y2', nodeB.y);
+
+                // Hitung jarak (Weight) otomatis dengan Pythagoras
+                const dx = nodeA.x - nodeB.x;
+                const dy = nodeA.y - nodeB.y;
+                const jarakOtomatis = Math.round(Math.sqrt(dx * dx + dy * dy));
+
+                data.edges.push({
+                    from: fromNode,
+                    to: toNode,
+                    weight: jarakOtomatis
+                });
+            }
+        });
+
+        graphData = data;
+        console.log("Graf & Garis Visual Berhasil Digenerate Otomatis!", graphData);
+
+        checkQrCodeParam();
+        
+        /* ── 2. DETEKSI QR CODE URL (DEEP-LINK LOKASI AWAL) ── */
+        function checkQrCodeParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scanNode = urlParams.get('scan_node');
+
+            if (scanNode && graphData && graphData.nodes[scanNode]) {
+                startNodeId = scanNode;
+                const nodeInfo = graphData.nodes[scanNode];
+                
+                const txtStart = document.getElementById('txtStartNode');
+                if (txtStart) txtStart.textContent = nodeInfo.label || scanNode;
+                
+                const circleEl = document.getElementById(scanNode);
+                if (circleEl) {
+                    circleEl.setAttribute('fill', '#007E43');
+                    circleEl.setAttribute('r', '12');
+                    circleEl.style.opacity = '1';
                 }
+            }
+        }
+
+        /* ── 3. HITUNG & GAMBAR PREVIEW RUTE DIJKSTRA ── */
+        function updateRoutePreview() {
+            if (!graphData || !startNodeId || !currentTargetLapakId) return;
+
+            const endNodeId = `node-${currentTargetLapakId}`;
+            
+            // Diubah menjadi window.findShortestPath agar terbaca dari hasil compile Vite
+            if (typeof window.findShortestPath !== 'function') {
+                console.error("Fungsi findShortestPath belum dimuat di object window.");
+                return;
+            }
+            const routePoints = window.findShortestPath(graphData, startNodeId, endNodeId);
+            const polylineEl = document.getElementById('dijkstraPath');
+
+            if (polylineEl) {
+                if (routePoints && routePoints.length > 0) {
+                    const pointsString = routePoints.map(p => `${p.x},${p.y}`).join(' ');
+                    polylineEl.setAttribute('points', pointsString);
+                    console.log("Rute jalan 2D berhasil digambar!");
+                } else {
+                    polylineEl.setAttribute('points', '');
+                }
+            }
+        }
+
+        /* ── 4. KONTROL KARTU INFORMASI (INFO CARD) ── */
+        const infoCard    = document.getElementById('infoCard');
+        const infoOverlay = document.getElementById('infoOverlay');
+        const infoImage   = document.getElementById('infoImage');
+        const infoBadge   = document.getElementById('infoBadge');
+        const infoId      = document.getElementById('infoId');
+        const infoTitle   = document.getElementById('infoTitle');
+        const infoDesc    = document.getElementById('infoDesc');
+        const btnClose    = document.getElementById('infoClose');
+
+        function showInfoCard(lapakId, cssClass) {
+            if (!infoCard) return;
+            
+            currentTargetLapakId = lapakId;
+            const t = tenantData[lapakId];
+
+            infoId.textContent    = lapakId;
+            infoTitle.textContent = t?.nama ?? formatId(lapakId);
+            infoDesc.textContent  = t?.deskripsi ?? 'Belum ada informasi detail untuk lapak ini.';
+            infoBadge.textContent = (t?.kategori ?? cssClass.replace(/-/g,' ')).toUpperCase();
+
+            const txtStart = document.getElementById('txtStartNode');
+            if (txtStart) {
+                if (startNodeId && graphData && graphData.nodes[startNodeId]) {
+                    txtStart.textContent = graphData.nodes[startNodeId].label || startNodeId;
+                } else {
+                    txtStart.textContent = "Belum ditentukan (Klik Manual / Scan QR)";
+                }
+            }
+
+            const btnPilihStart = document.getElementById('btnPilihStart');
+            if (btnPilihStart) {
+                btnPilihStart.onclick = function() {
+                    startNodeId = `node-${lapakId}`;
+                    if (graphData && graphData.nodes[startNodeId]) {
+                        if (txtStart) txtStart.textContent = graphData.nodes[startNodeId].label;
+                        updateRoutePreview();
+                    } else {
+                        alert("Titik navigasi untuk lapak ini belum terdaftar di data graf!");
+                    }
+                };
+            }
+
+            const btnNavigasi3d = document.getElementById('btnNavigasi3d');
+            if (btnNavigasi3d) {
+                btnNavigasi3d.onclick = function() {
+                    if (!startNodeId) {
+                        alert("Silakan tentukan Lokasi Awal Anda terlebih dahulu!");
+                        return;
+                    }
+
+                    sessionStorage.setItem('graphData', JSON.stringify(graphData));
+                    window.location.href = `/denah/rute?start=${startNodeId}&target=${lapakId}`;
+                    // window.location.href = `${url3D}?start=${startNodeId}&target=${lapakId}`;
+                };
+            }
+
+            infoCard.classList.add('show');
+            if (infoOverlay) infoOverlay.classList.remove('hidden');
+            
+            updateRoutePreview();
+        }
+
+        window.closeInfoCard = function() {
+            if (infoCard) infoCard.classList.remove('show');
+            if (infoOverlay) infoOverlay.classList.add('hidden');
+        }
+
+        if (btnClose) btnClose.addEventListener('click', window.closeInfoCard);
+
+        function formatId(id) { return id.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase()); }
+
+        /* ── 5. PASANG EVENT LISTENER KLIK PADA SVG KIOS ── */
+        const interactiveClasses = [
+            'lapak-sayur-buah-dan-jajanan','lapak-olahan-dan-jajanan','lapak-non-halal',
+            'lapak-basah','lapak-kuliner','kios-besar','kios-kecil','kios-fnb','atm','mushola','toilet',
+        ];
+
+        const svg = document.getElementById('denahSvg');
+        const lapakEls = svg ? svg.querySelectorAll(interactiveClasses.map(c => '.' + c).join(',')) : [];
+
+        lapakEls.forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                showInfoCard(el.id || '', el.classList[0] || '');
             });
         });
-    });
 
-    /* ── Zoom ── */
-    let scale = 1;
-    const svgEl    = document.getElementById('denahSvg');
-    const container = document.getElementById('denahContainer');
+        /* ── 6. LEGENDA FILTER KATEGORI LAPAK ── */
+        document.querySelectorAll('.legend-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.legend-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const f = btn.dataset.filter;
+                lapakEls.forEach(el => {
+                    if (f === 'all' || el.classList.contains(f)) {
+                        el.classList.remove('lapak-dimmed');
+                    } else {
+                        el.classList.add('lapak-dimmed');
+                    }
+                });
+            });
+        });
 
-    function applyZoom() {
-        if (svgEl) svgEl.style.transform = `scale(${scale})`;
-    }
+        /* ── 7. FITUR ZOOM & RESET PETA ── */
+        let scale = 1;
+        const container = document.getElementById('denahContainer');
 
-    document.getElementById('btn-zoom-in')?.addEventListener('click', () => {
-        scale = Math.min(3, parseFloat((scale + 0.3).toFixed(1)));
-        applyZoom();
-    });
-    document.getElementById('btn-zoom-out')?.addEventListener('click', () => {
-        scale = Math.max(0.5, parseFloat((scale - 0.3).toFixed(1)));
-        applyZoom();
-    });
-    document.getElementById('btn-zoom-reset')?.addEventListener('click', () => {
-        scale = 1;
-        applyZoom();
-        if (container) { container.scrollTop = 0; container.scrollLeft = 0; }
-        closeInfoCard();
-    });
+        function applyZoom() { if (svg) svg.style.transform = `scale(${scale})`; }
+        document.getElementById('btn-zoom-in')?.addEventListener('click', () => { scale = Math.min(3, parseFloat((scale + 0.3).toFixed(1))); applyZoom(); });
+        document.getElementById('btn-zoom-out')?.addEventListener('click', () => { scale = Math.max(0.5, parseFloat((scale - 0.3).toFixed(1))); applyZoom(); });
+        document.getElementById('btn-zoom-reset')?.addEventListener('click', () => { scale = 1; applyZoom(); if (container) { container.scrollTop = 0; container.scrollLeft = 0; } window.closeInfoCard(); });
 
-    /* ── Pinch-to-zoom (mobile) ── */
-    let startDist = null;
-    let startScale = 1;
-
-    container?.addEventListener('touchstart', e => {
-        if (e.touches.length === 2) {
-            startDist  = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-            startScale = scale;
-        }
-    }, { passive: true });
-
-    container?.addEventListener('touchmove', e => {
-        if (e.touches.length === 2 && startDist) {
-            const dist  = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-            const ratio = dist / startDist;
-            scale = Math.min(3, Math.max(0.5, startScale * ratio));
-            applyZoom();
-        }
-    }, { passive: true });
-
-    container?.addEventListener('touchend', () => { startDist = null; });
-
-    /* Tutup info card saat klik di luar --mobile-- */
-    document.addEventListener('click', e => {
-        if (!infoCard.contains(e.target) && !e.target.closest('[class]')) {
-            closeInfoCard();
-        }
-    });
-})();
+        /* Tutup info card saat klik di luar area lapak */
+        document.addEventListener('click', e => {
+            if (infoCard && !infoCard.contains(e.target) && !e.target.closest('svg')) {
+                window.closeInfoCard();
+            }
+        });
+    })();
 </script>
 @endsection

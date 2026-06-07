@@ -1,0 +1,163 @@
+/* ──────────────────────────────────────────────────────────
+   Denah 3D Navigation Styles
+   ────────────────────────────────────────────────────────── */
+
+/* Reset & Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    background-color: #1a1a1a;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #ffffff;
+}
+
+/* Canvas Styles */
+#gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* ──────────────────────────────────────────────────────────
+   UI Overlay
+   ────────────────────────────────────────────────────────── */
+
+.ui-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px 20px;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.ui-overlay__title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.ui-overlay__target {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.ui-overlay__target strong {
+    color: #ff4f3b;
+    font-weight: 600;
+}
+
+.ui-overlay__hint {
+    margin: 8px 0 0 0;
+    font-size: 12px;
+    color: #ccc;
+    line-height: 1.3;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Return Button
+   ────────────────────────────────────────────────────────── */
+
+.btn-return {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+    
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff4f3b 0%, #e63a29 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 79, 59, 0.3);
+}
+
+.btn-return:hover {
+    background: linear-gradient(135deg, #e63a29 0%, #d42d1f 100%);
+    box-shadow: 0 6px 20px rgba(255, 79, 59, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-return:active {
+    transform: translateY(0);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Responsive Design
+   ────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .ui-overlay {
+        top: 12px;
+        left: 12px;
+        padding: 12px 16px;
+    }
+
+    .ui-overlay__title {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    .ui-overlay__target {
+        font-size: 13px;
+    }
+
+    .ui-overlay__hint {
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    .btn-return {
+        top: 12px;
+        right: 12px;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+/* ──────────────────────────────────────────────────────────
+   Accessibility
+   ────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-return {
+        transition: none;
+    }
+
+    .btn-return:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    .ui-overlay {
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-return {
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+}
