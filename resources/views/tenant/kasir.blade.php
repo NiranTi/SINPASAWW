@@ -377,14 +377,12 @@ document.getElementById('searchInput').addEventListener('input', function () {
 const cart = {};
 let   metode = 'tunai';
 const rp = n => 'Rp ' + Number(n).toLocaleString('id-ID');
-var nNominalInput = document.getElementById('mnominal').val().replace(/,/gi, "");
-var nNominalInput2 = nNominalInput.split(/(?=(?:\d{3})+$)/).join(".");
-// // const mNominalInput = document.getElementById('mnominal');
-// nNominalInput.addEventListener('input', function(e){
-//     let titik = value.split('.');
-//     titik[0] = titik[0].replace
-// }
-// )
+const mNominalInput = document.getElementById('mnominal');
+mNominalInput.addEventListener('onClick', function(e){
+    let mNominalInput2 = mNominalInput.Number.toLocaleString("en-US");
+    titik[0] = titik[0].replace
+}
+)
 // dNominal
 /* Tambah item ke cart */
 function addToCart(id, nama, harga, maxStok) {
