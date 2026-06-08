@@ -377,7 +377,7 @@ document.getElementById('searchInput').addEventListener('input', function () {
 const cart = {};
 let   metode = 'tunai';
 const rp = n => 'Rp ' + Number(n).toLocaleString('id-ID');
-const mNominalInput = document.getElementById('mnominal');
+const mNominalInput = document.getElementById('mNominal');
 mNominalInput.addEventListener('onClick', function(e){
     let mNominalInput2 = mNominalInput.Number.toLocaleString("en-US");
     titik[0] = titik[0].replace
