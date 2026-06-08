@@ -68,167 +68,176 @@
                 shadow-xl
                 p-8">
 
-        <div>
-            <h2 class="font-manrope text-lg text-[#1A1C19]">
-                Daftar
-            </h2>
+        @if($canRegister)
+            <div>
+                <h2 class="font-manrope text-lg text-[#1A1C19]">
+                    Daftar
+                </h2>
 
-            <p class="font-manrope text-[#40493D] text-sm">
-                Isi formulir pendaftaran tenant untuk mendapatkan akses ke platform manajemen.
-            </p>
-        </div>
+                <p class="font-manrope text-[#40493D] text-sm">
+                    Isi formulir pendaftaran tenant untuk mendapatkan akses ke platform manajemen.
+                </p>
+            </div>
 
-        {{-- ERROR --}}
-        @if ($errors->any())
-            <div class="mt-6 rounded-xl bg-red-50 border border-red-200 p-4">
-                <ul class="space-y-1 text-sm text-red-600">
-                    @foreach ($errors->all() as $error)
-                        <li>• {{ $error }}</li>
-                    @endforeach
-                </ul>
+            {{-- ERROR --}}
+            @if ($errors->any())
+                <div class="mt-6 rounded-xl bg-red-50 border border-red-200 p-4">
+                    <ul class="space-y-1 text-sm text-red-600">
+                        @foreach ($errors->all() as $error)
+                            <li>• {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- FORM --}}
+            <form method="POST" action="{{ route('register.store') }}" class="mt-4 space-y-3">
+                @csrf
+
+                {{-- NAMA TENANT --}}
+                <div>
+                    <label class="text-[0.7rem] text-[#525252] uppercase">
+                        Nama Tenant
+                    </label>
+
+                    <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
+                                    focus-within:outline-[#007E43]">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-[#9CA3AF]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.7"
+                                d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Masukkan nama tenant disini..."
+                            class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
+                            required
+                        >
+                    </div>
+                </div>
+
+                {{-- EMAIL --}}
+                <div>
+                    <label class="text-[0.7rem] text-[#525252] uppercase">
+                        Email
+                    </label>
+
+                    <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
+                                    focus-within:outline-[#007E43]">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-[#9CA3AF]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.7"
+                                d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Masukkan email disini..."
+                            class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
+                            required
+                        >
+                    </div>
+                </div>
+
+                {{-- PASSWORD --}}
+                <div>
+                    <label class="text-[0.7rem] text-[#525252] uppercase">
+                        Kata Sandi
+                    </label>
+
+                    <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
+                                    focus-within:outline-[#007E43]">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-[#9CA3AF]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.7"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 10-8 0v4h8z"/>
+                        </svg>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Masukkan kata sandi disini..."
+                            class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
+                            required
+                        >
+                    </div>
+                </div>
+
+                {{-- KONFIRMASI PASSWORD --}}
+                <div>
+                    <label class="text-[0.7rem] text-[#525252] uppercase">
+                        Ulangi Kata Sandi
+                    </label>
+
+                    <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
+                                    focus-within:outline-[#007E43]">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-[#9CA3AF]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.7"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 10-8 0v4h8z"/>
+                        </svg>
+
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            placeholder="Ulangi kata sandi disini..."
+                            class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full rounded-full bg-[#007e43]
+                        transition-all duration-300
+                        text-white text-sm py-2">
+                    Daftar
+                </button>
+            </form>
+
+            <div class="mt-8 text-[0.7rem] text-[#5E6470]">
+                Sudah punya akun?
+                <a href="{{ route('login') }}"
+                    class="text-[#007e43] hover:underline">
+                    Masuk disini
+                </a>
+            </div>
+        @else
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="font-manrope text-lg text-[#1A1C19]">Pendaftaran Ditutup</h3>
+                    <p class="font-manrope text-[#40493D] text-sm">Mohon maaf, saat ini kapasitas penyewa telah penuh. Kami tidak menerima pendaftaran baru saat ini.</p>
+                </div>
             </div>
         @endif
-
-        {{-- FORM --}}
-        <form method="POST" action="{{ route('register.store') }}" class="mt-4 space-y-3">
-            @csrf
-
-            {{-- NAMA TENANT --}}
-            <div>
-                <label class="text-[0.7rem] text-[#525252] uppercase">
-                    Nama Tenant
-                </label>
-
-                <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
-                                focus-within:outline-[#007E43]">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-[#9CA3AF]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-
-                        <path stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.7"
-                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Masukkan nama tenant disini..."
-                        class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
-                        required
-                    >
-                </div>
-            </div>
-
-            {{-- EMAIL --}}
-            <div>
-                <label class="text-[0.7rem] text-[#525252] uppercase">
-                    Email
-                </label>
-
-                <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
-                                focus-within:outline-[#007E43]">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-[#9CA3AF]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-
-                        <path stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.7"
-                            d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Masukkan email disini..."
-                        class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
-                        required
-                    >
-                </div>
-            </div>
-
-            {{-- PASSWORD --}}
-            <div>
-                <label class="text-[0.7rem] text-[#525252] uppercase">
-                    Kata Sandi
-                </label>
-
-                <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
-                                focus-within:outline-[#007E43]">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-[#9CA3AF]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-
-                        <path stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.7"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 10-8 0v4h8z"/>
-                    </svg>
-
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Masukkan kata sandi disini..."
-                        class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
-                        required
-                    >
-                </div>
-            </div>
-
-            {{-- KONFIRMASI PASSWORD --}}
-            <div>
-                <label class="text-[0.7rem] text-[#525252] uppercase">
-                    Ulangi Kata Sandi
-                </label>
-
-                <div class="mt-2 flex items-center h-12 bg-[#F5F7F3] rounded-2xl px-4 focus-within:outline-2
-                                focus-within:outline-[#007E43]">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-[#9CA3AF]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-
-                        <path stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.7"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 10-8 0v4h8z"/>
-                    </svg>
-
-                    <input
-                        type="password"
-                        name="password_confirmation"
-                        placeholder="Ulangi kata sandi disini..."
-                        class="w-full bg-transparent outline-none border-none text-xs ml-3 placeholder:text-[#A1A1AA]"
-                        required
-                    >
-                </div>
-            </div>
-
-            <button
-                type="submit"
-                class="w-full rounded-full bg-[#007e43]
-                    transition-all duration-300
-                    text-white text-sm py-2">
-                Daftar
-            </button>
-        </form>
-
-        <div class="mt-8 text-[0.7rem] text-[#5E6470]">
-            Sudah punya akun?
-            <a href="{{ route('login') }}"
-                class="text-[#007e43] hover:underline">
-                Masuk disini
-            </a>
-        </div>
 
     </div>
 

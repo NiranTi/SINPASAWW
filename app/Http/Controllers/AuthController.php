@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Tenant;
+use App\Models\Denah;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,12 @@ class AuthController extends Controller
 {
     public function showRegister()
     {
-        return view('auth.register');
+        $tenantCount = Denah::whereNotNull('tenant_id')->count();
+        $maxTenants = 127;
+        
+        return view('auth.register', [
+            'canRegister' => $tenantCount < $maxTenants
+        ]);
     }
 
     public function register(Request $request)
