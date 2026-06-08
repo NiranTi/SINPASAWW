@@ -118,7 +118,7 @@
          Tab: grid 3-kolom
          Desktop: grid 2-kolom
     ── --}}
-    <div class="w-full mx-auto lg:flex-1 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4">
+    <div class="w-full mx-auto lg:flex-1 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-4">
         @forelse ($barang as $b)
             <div class="product-card"
                  data-id="{{ $b->barang_id }}"
