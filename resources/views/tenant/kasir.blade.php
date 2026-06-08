@@ -199,7 +199,7 @@
                 <label class="form-label">NOMINAL DITERIMA</label>
                 <div class="input-prefix-wrap">
                     <span class="input-prefix">Rp</span>
-                    <input name="nominal" type="text" id="Nominal" class="form-input has-prefix"
+                    <input name="nominal" type="number" id="Nominal" class="form-input has-prefix"
                            placeholder="0" oninput="syncNominal(this,'m')" min="0">
                     <input name="nominal" type="hidden" id="dNominal" class="form-input has-prefix"
                            placeholder="0" oninput="syncNominal(this,'m')" min="0">
