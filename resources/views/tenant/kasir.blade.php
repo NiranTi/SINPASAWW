@@ -199,7 +199,7 @@
                 <label class="form-label">NOMINAL DITERIMA</label>
                 <div class="input-prefix-wrap">
                     <span class="input-prefix">Rp</span>
-                    <input name="nominal" type="number" id="Nominal" class="form-input has-prefix"
+                    <input name="nominal" type="text" id="Nominal" class="form-input has-prefix"
                            placeholder="0" oninput="syncNominal(this,'m')" min="0">
                     <input name="nominal" type="hidden" id="dNominal" class="form-input has-prefix"
                            placeholder="0" oninput="syncNominal(this,'m')" min="0">
@@ -293,7 +293,7 @@
                 <span class="input-prefix">Rp</span>
                 <input type="hidden" id="mNominal" class="form-input has-prefix"
                        placeholder="0" oninput="syncNominal(this,'d')" min="0">
-                <input type="number" id="NominalM" class="form-input has-prefix"
+                <input type="text" id="NominalM" class="form-input has-prefix"
                        placeholder="0" oninput="syncNominal(this,'d')" min="0">
             </div>
         </div>
@@ -377,7 +377,7 @@ document.getElementById('searchInput').addEventListener('input', function () {
     });
 
 });
-/* ── Cart state ──────────────────────────────────────────── */
+/* ── Cart  ──────────────────────────────────────────── */
 const cart = {};
 let   metode = 'tunai';
 const dNominal = document.getElementById('dNominal');
