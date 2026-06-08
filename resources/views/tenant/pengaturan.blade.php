@@ -198,7 +198,7 @@
                     </select>
                     @error('blok')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                 </div>
-                
+
                 {{-- Nama Pemilik --}}
                 <div class="form-group mb-4">
                     <label class="form-label" style="margin-left: 15px !important;">NAMA PEMILIK</label>
@@ -218,13 +218,13 @@
                 </div>
 
                 {{-- No. HP — Geser teks label ke kiri --}}
-                <div class="form-group" style="margin-bottom:1.5rem;">
+                {{-- <div class="form-group" style="margin-bottom:1.5rem;">
                     <label class="form-label" style="margin-left: 15px !important;">NO. HP</label>
                     <input type="tel" name="no_hp"
                            class="form-input"
                            value="{{ old('no_hp', $user->phone ?? '') }}"
                            placeholder="Masukkan no. HP disini...">
-                           </div>
+                           </div> --}}
 
                 {{-- Simpan profil
                      Mobile : full width pill (sesuai desain)
